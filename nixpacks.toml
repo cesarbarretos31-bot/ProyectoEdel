@@ -1,6 +1,9 @@
 [phases.setup]
-# Instala PHP 8.2 + Composer + extensión intl
-nixPkgs = ["php82", "php82Packages.composer", "php82Packages.php-intl"]
+nixPkgs = [
+  "php82",
+  "php82Packages.composer",
+  "php82Packages.php-intl"
+]
 
 [phases.build]
 cmds = ["composer install --no-dev --optimize-autoloader"]
