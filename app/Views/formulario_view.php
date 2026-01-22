@@ -23,7 +23,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="<?= base_url('formulario/procesar') ?>" method="post" enctype="multipart/form-data">
+                <form action="/formulario/procesar" method="post" enctype="multipart/form-data">
                     <?= csrf_field() ?> <div class="row">
                         <div class="col-md-6 mb-3">
                             <label>Nombre Completo (Solo letras):</label>
