@@ -6,26 +6,25 @@ class Carrusel extends BaseController
 {
     public function index()
     {
-        // ... tus datos de imágenes ...
         $data = [
             'imagenes' => [
                 [
-                    'src' => 'foto1.jpg',
-                    'alt' => 'Primera imagen',
-                    'titulo' => 'Bienvenido',
-                    'desc' => 'Descripción de la primera foto'
+                    'src'    => 'foto1.jpg', // Verifica que no sea FOTO1.JPG o foto1.png
+                    'alt'    => 'Imagen 1',
+                    'titulo' => 'Deslizante 1',
+                    'desc'   => 'Descripción uno'
                 ],
                 [
-                    'src' => 'foto2.jpg',
-                    'alt' => 'Segunda imagen',
-                    'titulo' => 'Nuestros Servicios',
-                    'desc' => 'Descripción de la segunda foto'
+                    'src'    => 'foto2.jpg',
+                    'alt'    => 'Imagen 2',
+                    'titulo' => 'Deslizante 2',
+                    'desc'   => 'Descripción dos'
                 ],
                 [
-                    'src' => 'foto3.jpg',
-                    'alt' => 'Tercera imagen',
-                    'titulo' => 'Contáctanos',
-                    'desc' => 'Descripción de la tercera foto'
+                    'src'    => 'foto3.jpg',
+                    'alt'    => 'Imagen 3',
+                    'titulo' => 'Deslizante 3',
+                    'desc'   => 'Descripción tres'
                 ],
             ]
         ];

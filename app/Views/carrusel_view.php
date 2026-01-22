@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrusel en CI4</title>
+    <title>Carrusel en Railway</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <style>
-        /* Ajuste opcional para que las imágenes tengan altura uniforme */
         .carousel-item img {
             height: 500px;
-            object-fit: cover; /* Recorta la imagen para que no se deforme */
+            object-fit: cover;
+        }
+        /* Color de fondo para ver si el contenedor existe aunque no haya fotos */
+        .carousel {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
 <body>
 
     <div class="container mt-5">
-        <h2>Mi Carrusel CodeIgniter 4</h2>
+        <h2 class="mb-4">Mi Carrusel en Railway</h2>
         
         <div id="miCarrusel" class="carousel slide" data-bs-ride="carousel">
             
@@ -25,19 +28,18 @@
                 <?php foreach ($imagenes as $key => $imagen): ?>
                     <button type="button" data-bs-target="#miCarrusel" data-bs-slide-to="<?= $key ?>" 
                         class="<?= ($key === 0) ? 'active' : '' ?>" 
-                        aria-current="<?= ($key === 0) ? 'true' : 'false' ?>" 
-                        aria-label="Slide <?= $key + 1 ?>"></button>
+                        aria-current="<?= ($key === 0) ? 'true' : 'false' ?>"></button>
                 <?php endforeach; ?>
             </div>
 
             <div class="carousel-inner">
                 <?php foreach ($imagenes as $key => $imagen): ?>
                     <div class="carousel-item <?= ($key === 0) ? 'active' : '' ?>">
-                        <img src="<?= base_url('img/' . $imagen['src']) ?>" class="d-block w-100" alt="<?= $imagen['alt'] ?>">
+                        <img src="/img/<?= $imagen['src'] ?>" class="d-block w-100" alt="<?= $imagen['alt'] ?>">
                         
                         <div class="carousel-caption d-none d-md-block">
-                            <h5><?= $imagen['titulo'] ?></h5>
-                            <p><?= $imagen['desc'] ?></p>
+                            <h5 class="bg-dark d-inline-block px-2"><?= $imagen['titulo'] ?></h5><br>
+                            <p class="bg-dark d-inline-block px-2"><?= $imagen['desc'] ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -52,7 +54,7 @@
                 <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
-        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
