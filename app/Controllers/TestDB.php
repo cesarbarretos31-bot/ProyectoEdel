@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-class TestDB extends BaseController
+use CodeIgniter\Controller;
+
+class TestDB extends Controller
 {
- public function testdb()
-{
-    try {
-        $db = \Config\Database::connect();
-        $db->query('SELECT 1');
-        return '✅ Conexión OK con Railway MySQL';
-    } catch (\Throwable $e) {
-        return '❌ Error: ' . $e->getMessage();
+    public function index()
+    {
+        try {
+            $db = \Config\Database::connect();
+            echo "✅ Conectado correctamente a la base de datos";
+        } catch (\Throwable $e) {
+            echo "❌ Error: " . $e->getMessage();
+        }
     }
 }
-}
-   
