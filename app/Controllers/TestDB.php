@@ -2,26 +2,16 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-use Config\Database;
-
-class TestDB extends Controller
+class TestDB extends BaseController
 {
     public function index()
     {
-        try {
-            $db = Database::connect();
+        $db = \Config\Database::connect();
 
-            // Ejecutar una consulta simple
-            $query = $db->query('SELECT 1');
-
-            if ($query) {
-                return "✅ Conexión a la base de datos exitosa";
-            }
-
-            return "❌ No se pudo ejecutar consulta";
-        } catch (\Throwable $e) {
-            return "❌ Error: " . $e->getMessage();
+        if ($db->connID) {
+            return "✅ Conectado correctamente a la base de datos en Railway";
+        } else {
+            return "❌ Error al conectar a la base de datos";
         }
     }
 }
