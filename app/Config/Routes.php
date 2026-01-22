@@ -10,6 +10,7 @@ $routes->get('usuario/prueba', 'UsuarioController::prueba');
 $routes->get('registro', 'AuthController::registroForm');
 $routes->post('registro', 'AuthController::registro');
 $routes->get('testdb', 'TestDB::index');
+$routes->get('carrusel', 'Carrusel::index');
 
 
 
