@@ -6,6 +6,14 @@ use CodeIgniter\Database\Config;
 
 class Database extends Config
 {
+    /**
+     * The default database connection group.
+     */
+    public string $defaultGroup = 'default';
+
+    /**
+     * Default database connection.
+     */
     public $default = [];
 
     public function __construct()
