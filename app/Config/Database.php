@@ -6,10 +6,9 @@ use CodeIgniter\Database\Config;
 
 class Database extends Config
 {
-    /**
-     * Default database connection
-     */
-    public $default = [
+    public string $defaultGroup = 'default';
+
+    public array $default = [
         'DSN'      => '',
         'hostname' => '',
         'username' => '',
@@ -33,21 +32,11 @@ class Database extends Config
     {
         parent::__construct();
 
-        // 🔹 Railway / Producción
-        if (getenv('RAILWAY_ENVIRONMENT')) {
-            $this->default['hostname'] = getenv('MYSQLHOST');
-            $this->default['username'] = getenv('MYSQLUSER');
-            $this->default['password'] = getenv('MYSQLPASSWORD');
-            $this->default['database'] = getenv('MYSQLDATABASE');
-            $this->default['port']     = getenv('MYSQLPORT');
-        }
-        // 🔹 Local (XAMPP)
-        else {
-            $this->default['hostname'] = '127.0.0.1';
-            $this->default['username'] = 'root';
-            $this->default['password'] = '';
-            $this->default['database'] = 'edel_db';
-            $this->default['port']     = 3306;
-        }
+        // 🔥 Railway MySQL
+        $this->default['hostname'] = getenv('MYSQLHOST');
+        $this->default['username'] = getenv('MYSQLUSER');
+        $this->default['password'] = getenv('MYSQLPASSWORD');
+        $this->default['database'] = getenv('MYSQLDATABASE');
+        $this->default['port']     = getenv('MYSQLPORT') ?: 3306;
     }
 }
