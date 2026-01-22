@@ -6,8 +6,6 @@ use CodeIgniter\Database\Config;
 
 class Database extends Config
 {
-    public string $defaultGroup = 'default';
-
     public $default = [];
 
     public function __construct()
@@ -15,26 +13,23 @@ class Database extends Config
         parent::__construct();
 
         $this->default = [
-            'DSN'      => '',
-            'hostname' => env('MYSQLHOST'),
-            'username' => env('MYSQLUSER'),
-            'password' => env('MYSQLPASSWORD'),
-            'database' => env('MYSQLDATABASE'),
-            'DBDriver' => 'MySQLi', // ⛔ NO
-            // 👇 CAMBIAR A:
-            // 'DBDriver' => 'MySQLi',
-            'DBDriver' => 'PDO',
-            'DBPrefix' => '',
-            'pConnect' => false,
-            'DBDebug'  => (ENVIRONMENT !== 'production'),
-            'charset'  => 'utf8mb4',
-            'DBCollat' => 'utf8mb4_general_ci',
-            'swapPre'  => '',
-            'encrypt'  => false,
-            'compress' => false,
-            'strictOn' => false,
-            'failover' => [],
-            'port'     => env('MYSQLPORT'),
-        ];
+          'DSN'      => '',
+        'hostname' => 'mysql.railway.internal', 
+        'username' => 'root',
+        'password' => 'WZKuoXKFRtWGisNdBztfWpXiEGeqPuQE',
+        'database' => 'railway',
+        'DBDriver' => 'MySQLi',  // <--- ESTO ARREGLA EL ERROR DEL DRIVER
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => true, // Lo dejamos en true para ver errores si fallara algo mas
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306, // <--- CAMBIA ESTO POR TU MYSQLPORT (es un numero)
+    ];
     }
 }
