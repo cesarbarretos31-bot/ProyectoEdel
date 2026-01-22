@@ -11,7 +11,8 @@ $routes->get('registro', 'AuthController::registroForm');
 $routes->post('registro', 'AuthController::registro');
 $routes->get('testdb', 'TestDB::index');
 $routes->get('carrusel', 'Carrusel::index');
-
+$routes->get('formulario', 'Formulario::index');
+$routes->post('formulario/procesar', 'Formulario::procesar');
 
 
 
