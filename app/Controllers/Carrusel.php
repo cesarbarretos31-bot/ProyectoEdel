@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+class Carrusel extends BaseController
 {
     public function index()
     {
-        // Simulamos datos (esto podría venir de una base de datos)
+        // ... tus datos de imágenes ...
         $data = [
             'imagenes' => [
                 [
