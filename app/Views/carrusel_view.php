@@ -33,7 +33,7 @@
             <div class="carousel-inner">
                 <?php foreach ($imagenes as $key => $imagen): ?>
                     <div class="carousel-item <?= ($key === 0) ? 'active' : '' ?>">
-                        <img src="<?= base_url('assets/img/' . $imagen['src']) ?>" class="d-block w-100" alt="<?= $imagen['alt'] ?>">
+                        <img src="<?= base_url('img/' . $imagen['src']) ?>" class="d-block w-100" alt="<?= $imagen['alt'] ?>">
                         
                         <div class="carousel-caption d-none d-md-block">
                             <h5><?= $imagen['titulo'] ?></h5>
