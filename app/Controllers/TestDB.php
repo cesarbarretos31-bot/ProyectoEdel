@@ -4,14 +4,15 @@ namespace App\Controllers;
 
 class TestDB extends BaseController
 {
-    public function index()
-    {
+ public function testdb()
+{
+    try {
         $db = \Config\Database::connect();
-
-        if ($db->connID) {
-            return "✅ Conectado correctamente a la base de datos en Railway";
-        } else {
-            return "❌ Error al conectar a la base de datos";
-        }
+        $db->query('SELECT 1');
+        return '✅ Conexión OK con Railway MySQL';
+    } catch (\Throwable $e) {
+        return '❌ Error: ' . $e->getMessage();
     }
 }
+}
+   
