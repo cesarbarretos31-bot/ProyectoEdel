@@ -6,14 +6,8 @@ use CodeIgniter\Database\Config;
 
 class Database extends Config
 {
-    /**
-     * The default database connection group.
-     */
     public string $defaultGroup = 'default';
 
-    /**
-     * Default database connection.
-     */
     public $default = [];
 
     public function __construct()
@@ -26,7 +20,10 @@ class Database extends Config
             'username' => env('MYSQLUSER'),
             'password' => env('MYSQLPASSWORD'),
             'database' => env('MYSQLDATABASE'),
-            'DBDriver' => 'MySQLi',
+            'DBDriver' => 'MySQLi', // ⛔ NO
+            // 👇 CAMBIAR A:
+            // 'DBDriver' => 'MySQLi',
+            'DBDriver' => 'PDO',
             'DBPrefix' => '',
             'pConnect' => false,
             'DBDebug'  => (ENVIRONMENT !== 'production'),
