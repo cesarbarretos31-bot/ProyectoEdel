@@ -2,10 +2,13 @@
 
 namespace App\Controllers;
 
-class Home extends BaseController
+use CodeIgniter\Controller;
+
+class Home extends Controller
 {
-    public function index(): string
+    public function index()
     {
-        return view('welcome_message');
+        // Cargamos la vista que contendrá los botones
+        return view('home'); 
     }
 }
