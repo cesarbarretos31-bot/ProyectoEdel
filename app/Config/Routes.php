@@ -15,6 +15,10 @@ $routes->get('formulario/test_db', 'Formulario::test_db');
 $routes->get('formulario/test_folder', 'Formulario::test_folder');
 $routes->get('registro', 'AuthController::registroForm');
 $routes->post('registro', 'AuthController::registro');
+$routes->get('carrusel', 'Carrusel::index');
+$routes->get('carrusel/nuevo', 'Carrusel::nuevo');   // Ruta para ver el formulario
+$routes->post('carrusel/guardar', 'Carrusel::guardar'); // Ruta para procesar el envío
+
 
 
 
