@@ -1,33 +1,15 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\ImagenModel;
 
 class Carrusel extends BaseController
 {
     public function index()
     {
-        $data = [
-            'imagenes' => [
-                [
-                    'src'    => 'foto1.jpg', // Verifica que no sea FOTO1.JPG o foto1.png
-                    'alt'    => 'Imagen 1',
-                    'titulo' => 'Deslizante 1',
-                    'desc'   => 'Descripción uno'
-                ],
-                [
-                    'src'    => 'foto2.jpg',
-                    'alt'    => 'Imagen 2',
-                    'titulo' => 'Deslizante 2',
-                    'desc'   => 'Descripción dos'
-                ],
-                [
-                    'src'    => 'foto3.jpg',
-                    'alt'    => 'Imagen 3',
-                    'titulo' => 'Deslizante 3',
-                    'desc'   => 'Descripción tres'
-                ],
-            ]
-        ];
+        $model = new ImagenModel();
+        // Obtiene todas las filas de la tabla
+        $data['imagenes'] = $model->findAll();
 
         return view('carrusel_view', $data);
     }

@@ -2,17 +2,16 @@
 
 namespace App\Controllers;
 
-/**
- * Controlador de Formulario Dinámico
- * Este controlador valida datos sin interactuar con MySQL.
- */
+use App\Models\ImagenModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
+
 class Formulario extends BaseController
 {
-    // Cargamos los helpers necesarios para el formulario y las URLs
+    // Habilitamos los helpers necesarios para el host
     protected $helpers = ['form', 'url'];
 
     /**
-     * Muestra el formulario
+     * Muestra la vista del formulario
      */
     public function index()
     {
@@ -20,63 +19,91 @@ class Formulario extends BaseController
     }
 
     /**
-     * Procesa la validación de los datos
+     * PROCESO PRINCIPAL: Valida y guarda en el Host
      */
     public function procesar()
     {
-        // 1. Definición de reglas ultra estrictas (Dinámicas)
+        // 1. Reglas de validación estrictas
         $reglas = [
-            'nombre'   => [
-                'rules'  => 'required|alpha_space|min_length[3]',
+            'titulo' => 'required|min_length[3]|max_length[100]',
+            'desc'   => 'permit_empty|max_length[255]',
+            'foto'   => [
+                'rules' => 'uploaded[foto]|is_image[foto]|max_size[foto,2048]|mime_in[foto,image/jpg,image/jpeg,image/png]',
                 'errors' => [
-                    'required'    => 'El nombre es obligatorio.',
-                    'alpha_space' => 'El nombre solo puede contener letras y espacios.',
-                    'min_length'  => 'El nombre debe tener al menos 3 caracteres.'
-                ]
-            ],
-            'email'    => 'required|valid_email',
-            'edad'     => 'required|is_natural_no_zero|less_than[120]',
-            'precio'   => 'required|decimal',
-            'fecha'    => 'required|valid_date[Y-m-d]',
-            'password' => 'required|min_length[8]|alpha_numeric_punct',
-            'url_perfil' => 'permit_empty|valid_url',
-            // Validación de archivo (Imagen)
-            'foto'     => [
-                'rules' => 'uploaded[foto]|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]',
-                'errors' => [
-                    'uploaded' => 'Debes subir una imagen.',
-                    'max_size' => 'La foto es demasiado pesada (Máx 2MB).',
+                    'uploaded' => 'Debes seleccionar una imagen.',
                     'is_image' => 'El archivo debe ser una imagen real.',
-                    'mime_in'  => 'Solo se permiten formatos JPG o PNG.'
+                    'max_size' => 'La imagen no debe pesar más de 2MB.'
                 ]
             ]
         ];
 
-        // 2. Ejecutar la validación
         if (!$this->validate($reglas)) {
-            // Si falla: Regresamos al formulario enviando los errores y los datos escritos (old input)
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // 3. Si la validación tiene éxito:
-        // Aquí podrías procesar los datos (ej. enviar un correo), pero no tocamos BD.
-        $datosRecibidos = $this->request->getPost();
+        // 2. Manejo del archivo en el servidor
+        $img = $this->request->getFile('foto');
         
-        return "
-            <div style='font-family: sans-serif; padding: 20px;'>
-                <h1 style='color: green;'>✅ ¡Validación Exitosa!</h1>
-                <p>Los datos han pasado todos los filtros dinámicos correctamente.</p>
-                <hr>
-                <h3>Datos validados:</h3>
-                <ul>
-                    <li><strong>Nombre:</strong> " . esc($datosRecibidos['nombre']) . "</li>
-                    <li><strong>Email:</strong> " . esc($datosRecibidos['email']) . "</li>
-                    <li><strong>Edad:</strong> " . esc($datosRecibidos['edad']) . "</li>
-                    <li><strong>Precio:</strong> " . esc($datosRecibidos['precio']) . "</li>
-                </ul>
-                <br>
-                <a href='" . base_url('formulario') . "'>Volver al formulario</a>
-            </div>
-        ";
+        if ($img->isValid() && ! $img->hasMoved()) {
+            // Nombre aleatorio para evitar conflictos en el servidor
+            $newName = $img->getRandomName();
+            
+            // Ruta física en el host (Carpeta public/img)
+            $path = FCPATH . 'img';
+
+            // Verificamos si la carpeta existe, si no, la creamos con permisos
+            if (!is_dir($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            // Movemos la imagen físicamente
+            $img->move($path, $newName);
+
+            // 3. Guardado en la Base de Datos del Host
+            $model = new ImagenModel();
+            try {
+                $model->save([
+                    'nombre_archivo' => $newName,
+                    'titulo'         => $this->request->getPost('titulo'),
+                    'descripcion'    => $this->request->getPost('desc')
+                ]);
+
+                return redirect()->to('/carrusel')->with('success', 'Imagen subida correctamente.');
+            } catch (\Exception $e) {
+                return "Error al guardar en la base de datos: " . $e->getMessage();
+            }
+        }
+
+        return "Error crítico al procesar el archivo.";
+    }
+
+    /**
+     * PRUEBA 1: Verificar conexión a BD en Railway
+     */
+    public function test_db()
+    {
+        try {
+            $db = \Config\Database::connect();
+            $query = $db->query("SELECT VERSION() as version");
+            $row = $query->getRow();
+            return "✅ Conexión a BD Exitosa. Versión de MySQL: " . $row->version;
+        } catch (\Exception $e) {
+            return "❌ Error de conexión: " . $e->getMessage();
+        }
+    }
+
+    /**
+     * PRUEBA 2: Verificar permisos de escritura en la carpeta public/img
+     */
+    public function test_folder()
+    {
+        $path = FCPATH . 'img/test_permisos.txt';
+        $content = "Prueba de escritura en Railway: " . date('Y-m-d H:i:s');
+
+        if (file_put_contents($path, $content)) {
+            return "✅ ¡Escritura exitosa! El host permite guardar archivos en public/img.<br>URL: " . base_url('img/test_permisos.txt');
+        } else {
+            return "❌ Error de permisos: No se pudo escribir en la carpeta. Verifica la configuración del Volume en Railway.";
+        }
     }
 }
