@@ -7,8 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('usuario/prueba', 'UsuarioController::prueba');
-$routes->get('registro', 'AuthController::registroForm');
-$routes->post('registro', 'AuthController::registro');
+$routes->get('registro', 'AuthController::registro');
+$routes->post('registro', 'AuthController::guardarRegistro');
 $routes->get('testdb', 'TestDB::index');
 $routes->get('carrusel', 'Carrusel::index');
 $routes->get('formulario', 'Formulario::index');
