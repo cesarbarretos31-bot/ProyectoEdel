@@ -10,14 +10,13 @@ class AuthController extends Controller
 {
     public function registroForm()
     {
-        return view('auth/registro'); // vista simple, captcha estará allí
+        return view('registro');
     }
 
     public function registro()
     {
         helper(['form']);
 
-        // Validación de reCAPTCHA
         $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
 
         $recaptchaConfig = new Recaptcha();
@@ -30,12 +29,9 @@ class AuthController extends Controller
         $captchaSuccess = json_decode($verify);
 
         if (!$captchaSuccess->success) {
-            return redirect()->back()
-                ->withInput()
-                ->with('captcha_error', 'Captcha no válido');
+            return redirect()->back()->withInput()->with('captcha_error', 'Captcha no válido');
         }
 
-        // Reglas de validación del formulario
         $rules = [
             'nombre'           => 'required|min_length[3]',
             'correo'           => 'required|valid_email|is_unique[usuarios.correo]',
@@ -44,9 +40,7 @@ class AuthController extends Controller
         ];
 
         if (! $this->validate($rules)) {
-            return redirect()->back()
-                ->withInput()
-                ->with('validation', $this->validator);
+            return redirect()->back()->withInput()->with('validation', $this->validator);
         }
 
         $usuarioModel = new UsuarioModel();
@@ -58,6 +52,6 @@ class AuthController extends Controller
             'creado_en' => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->to('/registro')->with('success', 'Usuario registrado correctamente');
+        return redirect()->to(site_url('registro'))->with('success', 'Usuario registrado correctamente');
     }
 }
