@@ -3,25 +3,29 @@
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
-use CodeIgniter\Controller;
 
-class UsuarioController extends Controller
+class UsuarioController extends BaseController
 {
-    public function prueba()
+    public function guardar()
     {
         $usuarioModel = new UsuarioModel();
 
+        // Recibir datos del formulario
         $data = [
-            'nombre'    => 'Usuario Prueba',
-            'correo'    => 'prueba' . time() . '@mail.com',
-            'password'  => password_hash('123456', PASSWORD_DEFAULT),
+            'nombre'    => $this->request->getPost('nombre'),
+            'correo'    => $this->request->getPost('correo'),
+            'password'  => password_hash(
+                $this->request->getPost('password'),
+                PASSWORD_DEFAULT
+            ),
             'creado_en' => date('Y-m-d H:i:s'),
         ];
 
+        // Guardar en BD
         if ($usuarioModel->insert($data)) {
-            return "✅ Usuario insertado correctamente";
+            return '✅ Usuario guardado correctamente';
         } else {
-            return "❌ Error al insertar usuario";
+            return '❌ Error al guardar usuario';
         }
     }
 }
