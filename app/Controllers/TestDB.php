@@ -15,7 +15,6 @@ class TestDB extends Controller
 
             // Ejecutar queries para arreglar la tabla
             $db->query("ALTER TABLE imagenes_carrusel MODIFY id INT(11) NOT NULL AUTO_INCREMENT");
-            $db->query("ALTER TABLE imagenes_carrusel ADD PRIMARY KEY (id)");
             $db->query("ALTER TABLE imagenes_carrusel AUTO_INCREMENT = 1");
 
             echo "✅ Tabla 'imagenes_carrusel' arreglada correctamente!";
