@@ -21,8 +21,10 @@
     <p style="color:red;"><?= session()->getFlashdata('captcha_error') ?></p>
 <?php endif; ?>
 
-<form method="post" action="/registro">
+<form method="post" action="<?= site_url('registro') ?>">
     <?= csrf_field() ?>
+
+
 
     <label>Nombre</label><br>
     <input type="text" name="nombre" value="<?= old('nombre') ?>"><br><br>
