@@ -112,7 +112,7 @@
     <div class="card emo-card mx-auto" style="max-width: 520px;">
         
         <div class="card-header emo-header text-white">
-            <h4>UPLOAD YOUR DARK IMAGE</h4>
+            <h4>Sube Tu Imagen jpg</h4>
         </div>
 
         <div class="card-body">
@@ -164,7 +164,7 @@
         </div>
 
         <div class="emo-footer">
-            © DARK ERA • 2000s MOOD
+         
         </div>
 
     </div>
