@@ -37,8 +37,8 @@
     <h1>Mi Página de Inicio</h1>
 
     <div class="btn-container">
-        <a class="button" href="<?= site_url('usuario/prueba') ?>">Usuario Prueba</a>
-        <a class="button" href="<?= site_url('testdb') ?>">Test DB</a>
+        
+       
         <a class="button" href="<?= site_url('carrusel') ?>">Carrusel</a>
         <a class="button" href="<?= site_url('carrusel/nuevo') ?>">Nuevo Carrusel</a>
         <a class="button" href="<?= site_url('formulario') ?>">Formulario</a>

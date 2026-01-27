@@ -5,9 +5,9 @@ namespace App\Controllers;
 use App\Models\ImagenModel;
 use CodeIgniter\Controller;
 
-class Carrusel extends BaseController
+class Carrusel extends Controller
 {
-    // 1. Mostrar el carrusel (Tu código original)
+    // Mostrar carrusel
     public function index()
     {
         $model = new ImagenModel();
@@ -16,54 +16,68 @@ class Carrusel extends BaseController
         return view('carrusel_view', $data);
     }
 
-    // 2. Mostrar el formulario de subida
+    // Mostrar formulario de subida
     public function nuevo()
     {
         return view('carrusel_upload');
     }
 
-    // 3. Procesar la imagen y guardar
+    // Guardar imagen
     public function guardar()
     {
-        // Validaciones para asegurar que es una imagen real
+        helper(['form']);
+
         $rules = [
             'titulo' => 'required|min_length[3]',
             'imagen' => [
-                'rules' => 'uploaded[imagen]'
+                'rules' =>
+                    'uploaded[imagen]'
                     . '|is_image[imagen]'
-                    . '|mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                    . '|max_size[imagen,5096]', // Máximo 5MB
+                    . '|mime_in[imagen,image/jpg,image/jpeg,image/png,image/gif,image/webp]'
+                    . '|ext_in[imagen,jpg,jpeg,png,gif,webp]'
+                    . '|max_size[imagen,5120]',
+                'errors' => [
+                    'uploaded' => 'Debes seleccionar una imagen.',
+                    'is_image' => 'El archivo no es una imagen válida.',
+                    'mime_in'  => 'Formato no permitido.',
+                    'ext_in'   => 'Extensión no permitida.',
+                    'max_size' => 'La imagen supera el tamaño permitido (5MB).',
+                ]
             ],
         ];
 
         if (! $this->validate($rules)) {
-            // Si falla, regresa con los errores
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
 
-        // Obtener el archivo del formulario
-        $img = $this->request->getFile('imagen');
+        $imagen = $this->request->getFile('imagen');
 
-        // Verificar que el archivo es válido y no se ha movido aún
-        if ($img->isValid() && ! $img->hasMoved()) {
-            
-            // Generar un nombre aleatorio para evitar archivos con mismo nombre
-            $nuevoNombre = $img->getRandomName();
-
-            // Mover la imagen a la carpeta public/img
-            $img->move(FCPATH . 'img', $nuevoNombre);
-
-            // Guardar la información en la base de datos
-            $model = new ImagenModel();
-            $model->insert([
-                'nombre_archivo' => $nuevoNombre,
-                'titulo'         => $this->request->getPost('titulo'),
-                'descripcion'    => $this->request->getPost('descripcion'),
-            ]);
-
-            return redirect()->to(site_url('carrusel'))->with('success', 'Imagen subida correctamente');
+        if (! $imagen->isValid() || $imagen->hasMoved()) {
+            return redirect()->back()
+                ->with('error', 'Error al procesar la imagen.');
         }
 
-        return redirect()->back()->with('error', 'Hubo un error al subir el archivo.');
+        // 🔐 Verificación extra REAL de imagen
+        if (! getimagesize($imagen->getTempName())) {
+            return redirect()->back()
+                ->with('error', 'El archivo no es una imagen válida.');
+        }
+
+        $nombreSeguro = $imagen->getRandomName();
+
+        // Mover imagen
+        $imagen->move(FCPATH . 'img', $nombreSeguro);
+
+        $model = new ImagenModel();
+        $model->insert([
+            'nombre_archivo' => $nombreSeguro,
+            'titulo'         => esc($this->request->getPost('titulo')),
+            'descripcion'    => esc($this->request->getPost('descripcion')),
+        ]);
+
+        return redirect()->to(site_url('carrusel'))
+            ->with('success', 'Imagen subida correctamente');
     }
 }
