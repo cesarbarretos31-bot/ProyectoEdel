@@ -111,7 +111,7 @@ body {
 <div class="main-card">
 
     <div class="main-title">
-        <h1>MI SISTEMA</h1>
+        <h1>MORENSISTEM</h1>
     </div>
 
     <div class="subtitle">

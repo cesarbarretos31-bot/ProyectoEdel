@@ -67,6 +67,26 @@
         <?php endif; ?>
     </div>
 </div>
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-dark p-3 rounded shadow-sm">
+        <li class="breadcrumb-item">
+            <a href="<?= site_url('/') ?>" class="text-decoration-none text-danger">
+                Inicio
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a href="<?= site_url('carrusel') ?>" class="text-decoration-none text-danger">
+                Carrusel
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active text-light" aria-current="page">
+            Galería
+        </li>
+    </ol>
+</nav>
+
 
 <script>
 (() => {
