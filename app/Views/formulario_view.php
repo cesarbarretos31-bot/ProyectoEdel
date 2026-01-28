@@ -22,32 +22,61 @@ body {
 }
 
 /* ===============================
-   BREADCRUMB EMO
+   BREADCRUMB EMO (UNA SOLA CLASE)
 ================================ */
 .emo-breadcrumb {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
+    animation: emoIn .6s ease;
 }
 
 .emo-breadcrumb ol {
-    background: #0b0b0b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: linear-gradient(145deg, #0b0b0b, #141414);
     padding: 14px 22px;
     border-radius: 14px;
-    box-shadow: 0 0 20px rgba(160,0,255,.35);
+    box-shadow: 0 0 25px rgba(160,0,255,.35);
     font-family: 'Courier New', monospace;
+    list-style: none;
 }
 
 .emo-breadcrumb a {
     color: #c77dff;
     text-decoration: none;
+    text-transform: uppercase;
+    font-size: 13px;
+    position: relative;
 }
 
-.emo-breadcrumb a:hover {
-    text-shadow: 0 0 12px rgba(160,0,255,.9);
+.emo-breadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #c77dff;
+    transition: .3s;
+}
+
+.emo-breadcrumb a:hover::after {
+    width: 100%;
 }
 
 .emo-breadcrumb .active {
     color: #fff;
     letter-spacing: 1px;
+    text-shadow: 0 0 6px rgba(255,255,255,.4);
+}
+
+.emo-breadcrumb .sep {
+    color: #444;
+}
+
+@keyframes emoIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===============================
@@ -103,35 +132,37 @@ label {
 <div class="container mt-5">
 
 <!-- ===============================
-     BREADCRUMBS
+     BREADCRUMB FUNCIONAL
 ================================ -->
-<nav class="emo-breadcrumb" aria-label="breadcrumb">
-    <ol class="breadcrumb mb-4">
+<nav class="emo-breadcrumb">
+<ol>
 
-        <li class="breadcrumb-item">
-            <a href="<?= site_url('/') ?>">Inicio</a>
-        </li>
+<li>
+    <a href="<?= site_url('/') ?>">Inicio</a>
+</li>
 
-        <?php if ($uri === 'formulario'): ?>
-            <li class="breadcrumb-item active">Formulario</li>
+<?php if ($uri === 'formulario'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Formulario</li>
 
-        <?php elseif ($uri === 'registro'): ?>
-            <li class="breadcrumb-item">
-                <a href="<?= site_url('formulario') ?>">Formulario</a>
-            </li>
-            <li class="breadcrumb-item active">Registro</li>
+<?php elseif ($uri === 'registro'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('formulario') ?>">Formulario</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Registro</li>
 
-        <?php elseif ($uri === 'carrusel'): ?>
-            <li class="breadcrumb-item active">Carrusel</li>
+<?php elseif ($uri === 'carrusel'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Carrusel</li>
 
-        <?php elseif ($uri === 'carrusel/nuevo'): ?>
-            <li class="breadcrumb-item">
-                <a href="<?= site_url('carrusel') ?>">Carrusel</a>
-            </li>
-            <li class="breadcrumb-item active">Nuevo Carrusel</li>
-        <?php endif; ?>
+<?php elseif ($uri === 'carrusel/nuevo'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Nuevo</li>
+<?php endif; ?>
 
-    </ol>
+</ol>
 </nav>
 
 <!-- ===============================
@@ -159,12 +190,12 @@ label {
 <div class="alert"><?= session('success') ?></div>
 <?php endif ?>
 
-<form id="formulario" method="post" action="<?= site_url('formulario/procesar') ?>">
+<form method="post" action="<?= site_url('formulario/procesar') ?>">
 <?= csrf_field() ?>
 
 <div class="mb-3">
 <label>NOMBRE</label>
-<input type="text" name="nombre" class="form-control" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,}">
+<input type="text" name="nombre" class="form-control" required>
 </div>
 
 <div class="mb-3">
@@ -173,17 +204,17 @@ label {
 </div>
 
 <div class="mb-3">
-<label>EDAD (18-99)</label>
+<label>EDAD</label>
 <input type="number" name="edad" class="form-control" min="18" max="99" required>
 </div>
 
 <div class="mb-3">
 <label>PRECIO</label>
-<input type="text" name="precio" class="form-control" pattern="^\d+(\.\d{1,2})?$" required>
+<input type="text" name="precio" class="form-control" required>
 </div>
 
 <div class="mb-3">
-<label>FECHA DE NACIMIENTO</label>
+<label>FECHA NACIMIENTO</label>
 <input type="date" name="fecha" class="form-control" required>
 </div>
 
