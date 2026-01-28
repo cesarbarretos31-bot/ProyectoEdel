@@ -1,5 +1,11 @@
+<?php
+$uri = service('uri')->getPath();
+?>
+
 <style>
-/* UNA SOLA CLASE PARA TODO */
+/* ===============================
+   EMO CAROUSEL 2000s STYLE
+================================ */
 .emo-carousel {
     position: relative;
     width: 100%;
@@ -10,22 +16,17 @@
     box-shadow: 0 0 40px rgba(255,0,80,.45);
 }
 
-/* CONTENEDOR DE SLIDES */
 .emo-carousel .slides {
     display: flex;
-    width: 100%;
     height: 100%;
     transition: transform 1s ease-in-out;
 }
 
-/* CADA SLIDE */
 .emo-carousel .slide {
     min-width: 100%;
-    height: 100%;
     position: relative;
 }
 
-/* IMAGEN */
 .emo-carousel img {
     width: 100%;
     height: 100%;
@@ -33,7 +34,6 @@
     filter: brightness(.6) contrast(1.25) saturate(1.4);
 }
 
-/* TEXTO */
 .emo-carousel h5 {
     position: absolute;
     bottom: 30px;
@@ -48,14 +48,75 @@
     border: 1px solid rgba(255,0,80,.7);
     box-shadow: 0 0 25px rgba(255,0,80,.8);
 }
+
+/* ===============================
+   BREADCRUMBS DARK / EMO
+================================ */
+.emo-breadcrumb {
+    margin: 25px 0;
+}
+
+.emo-breadcrumb ol {
+    background: #0b0b0b;
+    padding: 14px 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(255,0,80,.35);
+    font-family: 'Courier New', monospace;
+}
+
+.emo-breadcrumb a {
+    color: #ff305f;
+    text-decoration: none;
+}
+
+.emo-breadcrumb a:hover {
+    text-shadow: 0 0 10px rgba(255,0,80,.9);
+}
+
+.emo-breadcrumb .active {
+    color: #fff;
+    letter-spacing: 1px;
+}
 </style>
 
+<!-- ===============================
+     BREADCRUMBS
+================================ -->
+<nav class="emo-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+
+        <li class="breadcrumb-item">
+            <a href="<?= site_url('/') ?>">Inicio</a>
+        </li>
+
+        <?php if ($uri === 'carrusel'): ?>
+            <li class="breadcrumb-item active">Carrusel</li>
+
+        <?php elseif ($uri === 'carrusel/nuevo'): ?>
+            <li class="breadcrumb-item">
+                <a href="<?= site_url('carrusel') ?>">Carrusel</a>
+            </li>
+            <li class="breadcrumb-item active">Nuevo Carrusel</li>
+
+        <?php elseif ($uri === 'formulario'): ?>
+            <li class="breadcrumb-item active">Formulario</li>
+
+        <?php elseif ($uri === 'registro'): ?>
+            <li class="breadcrumb-item active">Registro</li>
+        <?php endif; ?>
+
+    </ol>
+</nav>
+
+<!-- ===============================
+     CAROUSEL
+================================ -->
 <div class="emo-carousel" id="emoCarousel">
     <div class="slides">
-        <?php if(!empty($imagenes)): ?>
+        <?php if (!empty($imagenes)): ?>
             <?php foreach ($imagenes as $img): ?>
                 <div class="slide">
-                    <img src="/img/<?= $img['nombre_archivo'] ?>">
+                    <img src="/img/<?= esc($img['nombre_archivo']) ?>">
                     <h5><?= esc($img['titulo']) ?></h5>
                 </div>
             <?php endforeach; ?>
@@ -67,37 +128,16 @@
         <?php endif; ?>
     </div>
 </div>
-<nav aria-label="breadcrumb" class="mb-4">
-    <ol class="breadcrumb bg-dark p-3 rounded shadow-sm">
-        <li class="breadcrumb-item">
-            <a href="<?= site_url('/') ?>" class="text-decoration-none text-danger">
-                Inicio
-            </a>
-        </li>
-
-        <li class="breadcrumb-item">
-            <a href="<?= site_url('carrusel') ?>" class="text-decoration-none text-danger">
-                Carrusel
-            </a>
-        </li>
-
-        <li class="breadcrumb-item active text-light" aria-current="page">
-            Galería
-        </li>
-    </ol>
-</nav>
-
 
 <script>
 (() => {
-    const carousel = document.querySelector('#emoCarousel .slides');
+    const slidesContainer = document.querySelector('#emoCarousel .slides');
     const slides = document.querySelectorAll('#emoCarousel .slide');
     let index = 0;
 
     setInterval(() => {
-        index++;
-        if (index >= slides.length) index = 0;
-        carousel.style.transform = `translateX(-${index * 100}%)`;
-    }, 3500); // velocidad del cambio
+        index = (index + 1) % slides.length;
+        slidesContainer.style.transform = `translateX(-${index * 100}%)`;
+    }, 3500);
 })();
 </script>
