@@ -4,8 +4,11 @@ $uri = service('uri')->getPath();
 
 <style>
 /* ===============================
-   EMO CAROUSEL 2000s STYLE
+   EMO CAROUSEL + BREADCRUMB 2000s
+   UNA SOLA CLASE / UN SOLO BLOQUE
 ================================ */
+
+/* -------- CAROUSEL -------- */
 .emo-carousel {
     position: relative;
     width: 100%;
@@ -49,9 +52,7 @@ $uri = service('uri')->getPath();
     box-shadow: 0 0 25px rgba(255,0,80,.8);
 }
 
-/* ===============================
-   BREADCRUMBS DARK / EMO
-================================ */
+/* -------- BREADCRUMBS -------- */
 .emo-breadcrumb {
     margin: 25px 0;
 }
@@ -84,7 +85,6 @@ $uri = service('uri')->getPath();
 ================================ -->
 <nav class="emo-breadcrumb" aria-label="breadcrumb">
     <ol class="breadcrumb">
-
         <li class="breadcrumb-item">
             <a href="<?= site_url('/') ?>">Inicio</a>
         </li>
@@ -104,7 +104,6 @@ $uri = service('uri')->getPath();
         <?php elseif ($uri === 'registro'): ?>
             <li class="breadcrumb-item active">Registro</li>
         <?php endif; ?>
-
     </ol>
 </nav>
 
@@ -131,13 +130,13 @@ $uri = service('uri')->getPath();
 
 <script>
 (() => {
-    const slidesContainer = document.querySelector('#emoCarousel .slides');
+    const container = document.querySelector('#emoCarousel .slides');
     const slides = document.querySelectorAll('#emoCarousel .slide');
     let index = 0;
 
     setInterval(() => {
         index = (index + 1) % slides.length;
-        slidesContainer.style.transform = `translateX(-${index * 100}%)`;
+        container.style.transform = `translateX(-${index * 100}%)`;
     }, 3500);
 })();
 </script>
