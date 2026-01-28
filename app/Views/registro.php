@@ -1,3 +1,7 @@
+<?php
+$uri = service('uri')->getPath();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,12 +14,76 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
+/* ===============================
+   BASE DARK EMO
+================================ */
 body {
     background: radial-gradient(circle at top, #1b1b1b, #000);
     font-family: 'Montserrat', sans-serif;
     color: #e0e0e0;
 }
 
+/* ===============================
+   BREADCRUMB EMO (UNA SOLA CLASE)
+================================ */
+.emo-breadcrumb {
+    margin-bottom: 35px;
+    animation: emoIn .6s ease;
+}
+
+.emo-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: linear-gradient(145deg, #0b0b0b, #141414);
+    padding: 14px 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 25px rgba(160,0,255,.35);
+    font-family: 'Courier New', monospace;
+    list-style: none;
+}
+
+.emo-breadcrumb a {
+    color: #c77dff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 13px;
+    position: relative;
+}
+
+.emo-breadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #c77dff;
+    transition: .3s;
+}
+
+.emo-breadcrumb a:hover::after {
+    width: 100%;
+}
+
+.emo-breadcrumb .active {
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px rgba(255,255,255,.4);
+}
+
+.emo-breadcrumb .sep {
+    color: #444;
+}
+
+@keyframes emoIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===============================
+   CARD REGISTRO
+================================ */
 .emo-card {
     background: #0e0e0e;
     border: 1px solid #2c2c2c;
@@ -27,6 +95,7 @@ body {
     background: linear-gradient(135deg, #4b006e, #1a001f);
     text-align: center;
     padding: 15px;
+    letter-spacing: 2px;
 }
 
 label {
@@ -64,6 +133,44 @@ label {
 <body>
 
 <div class="container mt-5">
+
+<!-- ===============================
+     BREADCRUMB FUNCIONAL
+================================ -->
+<nav class="emo-breadcrumb">
+<ol>
+
+<li>
+    <a href="<?= site_url('/') ?>">Inicio</a>
+</li>
+
+<?php if ($uri === 'registro'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('formulario') ?>">Formulario</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Registro</li>
+
+<?php elseif ($uri === 'formulario'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Formulario</li>
+
+<?php elseif ($uri === 'carrusel'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Carrusel</li>
+
+<?php elseif ($uri === 'carrusel/nuevo'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Nuevo</li>
+<?php endif; ?>
+
+</ol>
+</nav>
+
+<!-- ===============================
+     CARD REGISTRO
+================================ -->
 <div class="card emo-card mx-auto" style="max-width:480px">
 
 <div class="emo-header text-white">
@@ -133,7 +240,7 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,}$/;
 
     if (!soloLetras.test(nombre)) {
-        alert('❌ El nombre debe tener al menos 3 letras y solo letras.');
+        alert('❌ Nombre inválido.');
         e.preventDefault();
         return;
     }
@@ -145,7 +252,7 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     }
 
     if (pass.length < 6) {
-        alert('❌ La contraseña debe tener mínimo 6 caracteres.');
+        alert('❌ Contraseña mínima de 6 caracteres.');
         e.preventDefault();
         return;
     }
@@ -159,7 +266,6 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
     if (captcha.length === 0) {
         alert('❌ Confirma el captcha.');
         e.preventDefault();
-        return;
     }
 });
 </script>
