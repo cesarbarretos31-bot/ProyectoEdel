@@ -1,3 +1,7 @@
+<?php
+$uri = service('uri')->getPath();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,12 +12,47 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
+/* ===============================
+   BASE DARK EMO
+================================ */
 body {
     background: radial-gradient(circle at top, #1b1b1b, #000);
     font-family: 'Montserrat', sans-serif;
     color: #e0e0e0;
 }
 
+/* ===============================
+   BREADCRUMB EMO
+================================ */
+.emo-breadcrumb {
+    margin-bottom: 30px;
+}
+
+.emo-breadcrumb ol {
+    background: #0b0b0b;
+    padding: 14px 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(160,0,255,.35);
+    font-family: 'Courier New', monospace;
+}
+
+.emo-breadcrumb a {
+    color: #c77dff;
+    text-decoration: none;
+}
+
+.emo-breadcrumb a:hover {
+    text-shadow: 0 0 12px rgba(160,0,255,.9);
+}
+
+.emo-breadcrumb .active {
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+/* ===============================
+   CARD FORM
+================================ */
 .emo-card {
     background: #0e0e0e;
     border: 1px solid #2c2c2c;
@@ -24,6 +63,7 @@ body {
 .emo-header {
     background: linear-gradient(135deg, #4b006e, #1a001f);
     text-align: center;
+    letter-spacing: 2px;
 }
 
 label {
@@ -61,6 +101,42 @@ label {
 <body>
 
 <div class="container mt-5">
+
+<!-- ===============================
+     BREADCRUMBS
+================================ -->
+<nav class="emo-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb mb-4">
+
+        <li class="breadcrumb-item">
+            <a href="<?= site_url('/') ?>">Inicio</a>
+        </li>
+
+        <?php if ($uri === 'formulario'): ?>
+            <li class="breadcrumb-item active">Formulario</li>
+
+        <?php elseif ($uri === 'registro'): ?>
+            <li class="breadcrumb-item">
+                <a href="<?= site_url('formulario') ?>">Formulario</a>
+            </li>
+            <li class="breadcrumb-item active">Registro</li>
+
+        <?php elseif ($uri === 'carrusel'): ?>
+            <li class="breadcrumb-item active">Carrusel</li>
+
+        <?php elseif ($uri === 'carrusel/nuevo'): ?>
+            <li class="breadcrumb-item">
+                <a href="<?= site_url('carrusel') ?>">Carrusel</a>
+            </li>
+            <li class="breadcrumb-item active">Nuevo Carrusel</li>
+        <?php endif; ?>
+
+    </ol>
+</nav>
+
+<!-- ===============================
+     FORM CARD
+================================ -->
 <div class="card emo-card mx-auto" style="max-width:600px">
 
 <div class="card-header emo-header">
