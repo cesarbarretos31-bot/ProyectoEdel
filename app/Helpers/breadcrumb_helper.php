@@ -30,18 +30,22 @@ if (!function_exists('breadcrumbs')) {
 }
 
 /* Mapea títulos bonitos */
+
+    
 if (!function_exists('breadcrumb_title')) {
 
     function breadcrumb_title()
     {
-        $uri = service('request')->uri->getPath();
+        $uri = service('uri')->getPath();
 
         return match (true) {
-            $uri === '/'                   => 'Inicio',
+            $uri === '' || $uri === '/'     => 'Inicio',
             str_contains($uri, 'carrusel') => 'Carrusel',
             str_contains($uri, 'guardar')  => 'Subir Imagen',
-            str_contains($uri, 'crear')    => 'Formulario',
+            str_contains($uri, 'registro') => 'Registro',
+            str_contains($uri, 'formulario') => 'Formulario',
             default                        => 'Página'
         };
     }
 }
+ 
