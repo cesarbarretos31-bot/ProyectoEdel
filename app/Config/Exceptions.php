@@ -13,6 +13,7 @@ use Throwable;
  */
 class Exceptions extends BaseConfig
 {
+    
     /**
      * --------------------------------------------------------------------------
      * LOG EXCEPTIONS?
@@ -99,8 +100,12 @@ class Exceptions extends BaseConfig
      *          return new \App\Libraries\MyExceptionHandler();
      *      }
      */
-    public function handler(int $statusCode, Throwable $exception): ExceptionHandlerInterface
-    {
-        return new ExceptionHandler($this);
-    }
+    
+ public function handler(Throwable $exception, RequestInterface $request)
+{
+    http_response_code(500);
+    echo view('errors/error_custom');
+    exit;
+}
+
 }

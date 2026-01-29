@@ -44,7 +44,7 @@ if (!function_exists('breadcrumb_title')) {
             str_contains($uri, 'guardar')  => 'Subir Imagen',
             str_contains($uri, 'registro') => 'Registro',
             str_contains($uri, 'formulario') => 'Formulario',
-            default                        => 'Página'
+            default                        => 'Inicio'
         };
     }
 }

@@ -18,6 +18,10 @@ $routes->post('registro', 'AuthController::registro');
 $routes->get('carrusel', 'Carrusel::index');
 $routes->get('carrusel/nuevo', 'Carrusel::nuevo');   // Ruta para ver el formulario
 $routes->post('carrusel/guardar', 'Carrusel::guardar'); // Ruta para procesar el envío
+$routes->set404Override(function () {
+    return view('errors/error_custom');
+});
+
 
 
 
