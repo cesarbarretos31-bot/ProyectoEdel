@@ -83,6 +83,8 @@ $uri = service('uri')->getPath();
 <!-- ===============================
      BREADCRUMBS
 ================================ -->
+<?= view('partials/breadcrumbs') ?>
+
 <nav class="emo-breadcrumb" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">

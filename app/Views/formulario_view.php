@@ -5,6 +5,8 @@ $uri = service('uri')->getPath();
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <?= view('partials/breadcrumbs') ?>
+
 <meta charset="UTF-8">
 <title>Formulario Validado</title>
 
