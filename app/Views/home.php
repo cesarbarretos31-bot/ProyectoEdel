@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <?= view('partials/breadcrumbs') ?>
+  
 
 <meta charset="UTF-8">
+  <?= view('partials/breadcrumbs') ?>
 <title>Página Principal</title>
 
 <!-- Bootstrap -->
