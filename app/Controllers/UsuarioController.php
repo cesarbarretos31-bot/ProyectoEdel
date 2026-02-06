@@ -10,7 +10,6 @@ class UsuarioController extends BaseController
     {
         $usuarioModel = new UsuarioModel();
 
-        // Recibir datos del formulario
         $data = [
             'nombre'    => $this->request->getPost('nombre'),
             'correo'    => $this->request->getPost('correo'),
@@ -21,11 +20,59 @@ class UsuarioController extends BaseController
             'creado_en' => date('Y-m-d H:i:s'),
         ];
 
-        // Guardar en BD
         if ($usuarioModel->insert($data)) {
             return '✅ Usuario guardado correctamente';
         } else {
             return '❌ Error al guardar usuario';
         }
+    } // 👈 ESTA LLAVE FALTABA
+
+    public function listar()
+    {
+        $usuarioModel = new UsuarioModel();
+        return $this->response->setJSON(
+            $usuarioModel->findAll()
+        );
+    }
+
+    public function obtener($id)
+    {
+        $usuarioModel = new UsuarioModel();
+        return $this->response->setJSON(
+            $usuarioModel->find($id)
+        );
+    }
+
+    public function actualizar($id)
+    {
+        $usuarioModel = new UsuarioModel();
+
+        $data = [
+            'nombre' => $this->request->getPost('nombre'),
+            'correo' => $this->request->getPost('correo'),
+        ];
+
+        if ($this->request->getPost('password')) {
+            $data['password'] = password_hash(
+                $this->request->getPost('password'),
+                PASSWORD_DEFAULT
+            );
+        }
+
+        $usuarioModel->update($id, $data);
+
+        return $this->response->setJSON([
+            'ok' => true
+        ]);
+    }
+
+    public function eliminar($id)
+    {
+        $usuarioModel = new UsuarioModel();
+        $usuarioModel->delete($id);
+
+        return $this->response->setJSON([
+            'ok' => true
+        ]);
     }
 }
