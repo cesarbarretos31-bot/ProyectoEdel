@@ -6,6 +6,11 @@ use App\Models\UsuarioModel;
 
 class UsuarioController extends BaseController
 {
+    public function index()
+    {
+        return view('usuarios/index');
+    }
+
     public function guardar()
     {
         $usuarioModel = new UsuarioModel();
@@ -20,27 +25,21 @@ class UsuarioController extends BaseController
             'creado_en' => date('Y-m-d H:i:s'),
         ];
 
-        if ($usuarioModel->insert($data)) {
-            return '✅ Usuario guardado correctamente';
-        } else {
-            return '❌ Error al guardar usuario';
-        }
-    } // 👈 ESTA LLAVE FALTABA
+        $usuarioModel->insert($data);
+
+        return $this->response->setJSON(['ok' => true]);
+    }
 
     public function listar()
     {
         $usuarioModel = new UsuarioModel();
-        return $this->response->setJSON(
-            $usuarioModel->findAll()
-        );
+        return $this->response->setJSON($usuarioModel->findAll());
     }
 
     public function obtener($id)
     {
         $usuarioModel = new UsuarioModel();
-        return $this->response->setJSON(
-            $usuarioModel->find($id)
-        );
+        return $this->response->setJSON($usuarioModel->find($id));
     }
 
     public function actualizar($id)
@@ -61,9 +60,7 @@ class UsuarioController extends BaseController
 
         $usuarioModel->update($id, $data);
 
-        return $this->response->setJSON([
-            'ok' => true
-        ]);
+        return $this->response->setJSON(['ok' => true]);
     }
 
     public function eliminar($id)
@@ -71,8 +68,6 @@ class UsuarioController extends BaseController
         $usuarioModel = new UsuarioModel();
         $usuarioModel->delete($id);
 
-        return $this->response->setJSON([
-            'ok' => true
-        ]);
+        return $this->response->setJSON(['ok' => true]);
     }
 }

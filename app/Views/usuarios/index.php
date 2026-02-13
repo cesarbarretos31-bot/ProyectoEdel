@@ -1,39 +1,34 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Usuarios</title>
-</head>
-<body>
+<?= breadcrumbs([
+    ['title'=>'Inicio','url'=>site_url('/')],
+    ['title'=>'Usuarios','url'=>site_url('usuarios')],
+    ['title'=>'Listado','url'=>'']
+]) ?>
 
-<h2>Registro de Usuarios</h2>
+<div class="container mt-4">
+    <form id="formUsuario">
+        <input type="hidden" id="id">
 
-<form id="formUsuario">
-    <input type="hidden" id="usuario_id">
+        <input class="form-control mb-2" id="nombre" placeholder="Nombre" required>
+        <input class="form-control mb-2" id="correo" placeholder="Correo" required>
+        <input class="form-control mb-2" id="password" placeholder="Password">
 
-    <input type="text" id="nombre" placeholder="Nombre" required>
-    <input type="email" id="correo" placeholder="Correo" required>
-    <input type="password" id="password" placeholder="Password">
+        <button class="btn btn-primary w-100">Guardar</button>
+    </form>
 
-    <button type="submit">Guardar</button>
-</form>
+    <table class="table table-dark mt-4">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaUsuarios"></tbody>
+    </table>
+</div>
 
-<hr>
+<script>
+const BASE_URL = "<?= base_url() ?>";
+</script>
 
-<h3>Lista de usuarios</h3>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody id="tablaUsuarios"></tbody>
-</table>
-
-<script src="/js/usuarios.js"></script>
-</body>
-</html>
+<script src="<?= base_url('js/usuarios.js') ?>"></script>

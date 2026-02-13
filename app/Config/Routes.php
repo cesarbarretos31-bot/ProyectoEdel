@@ -20,11 +20,14 @@ $routes->get('carrusel/nuevo', 'Carrusel::nuevo');   // Ruta para ver el formula
 $routes->post('carrusel/guardar', 'Carrusel::guardar'); // Ruta para procesar el envío
 $routes->set404Override(function () {
     return view('errors/error_custom');
-$routes->get('usuarios', 'UsuarioController::listar');
-$routes->post('usuarios/guardar', 'UsuarioController::guardar');
-$routes->get('usuarios/obtener/(:num)', 'UsuarioController::obtener/$1');
-$routes->post('usuarios/actualizar/(:num)', 'UsuarioController::actualizar/$1');
-$routes->delete('usuarios/eliminar/(:num)', 'UsuarioController::eliminar/$1');
+
+    $routes->get('usuarios', 'UsuarioController::index');
+
+$routes->get('usuario/listar', 'UsuarioController::listar');
+$routes->post('usuario/guardar', 'UsuarioController::guardar');
+$routes->get('usuario/obtener/(:num)', 'UsuarioController::obtener/$1');
+$routes->post('usuario/actualizar/(:num)', 'UsuarioController::actualizar/$1');
+$routes->delete('usuario/eliminar/(:num)', 'UsuarioController::eliminar/$1');
 
 });
 
