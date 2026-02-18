@@ -2,100 +2,84 @@
 $uri = service('uri')->getPath();
 ?>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
 <style>
 /* ===============================
-   ESTILO PROFESIONAL MORENSISTEM
+   ULTRA-PREMIUM EMO CAROUSEL
+   Estética: Cyber-Punk / Scene 2000s
 ================================ */
-
-:root {
-    --accent-color: #ff0055;
-    --glow-color: rgba(255, 0, 85, 0.5);
-    --glass-bg: rgba(10, 10, 10, 0.75);
-}
 
 /* -------- BREADCRUMBS MODERNO -------- */
 .emo-breadcrumb {
     margin: 30px 0;
-    perspective: 1000px;
+    animation: fadeInDown 0.8s ease;
 }
 
 .emo-breadcrumb ol {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(15px);
     padding: 12px 25px;
-    border-radius: 50px; /* Estilo píldora */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 0, 85, 0.1);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 0, 95, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 95, 0.1);
     display: inline-flex;
     list-style: none;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
-    content: "〉";
-    color: var(--accent-color);
-    font-weight: 800;
-    font-size: 0.7rem;
-}
-
 .emo-breadcrumb a {
-    color: #eee;
+    color: #ff2d5f;
     text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.emo-breadcrumb a i {
-    color: var(--accent-color);
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 13px;
+    text-transform: uppercase;
+    transition: 0.3s;
 }
 
 .emo-breadcrumb a:hover {
-    color: var(--accent-color);
-    text-shadow: 0 0 8px var(--glow-color);
+    color: #fff;
+    text-shadow: 0 0 12px #ff2d5f, 0 0 20px #ff2d5f;
+}
+
+.emo-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: "⚡";
+    color: #444;
+    padding: 0 10px;
 }
 
 .emo-breadcrumb .active {
-    color: #888;
-    font-family: 'Share Tech Mono', monospace;
-    text-transform: uppercase;
-    padding-left: 10px;
+    color: #eee;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
 }
 
-/* -------- CAROUSEL PREMIUM -------- */
+/* -------- CAROUSEL DE ALTO IMPACTO -------- */
 .emo-carousel {
     position: relative;
     width: 100%;
-    height: 550px;
+    height: 600px; /* Un poco más alto para mayor impacto */
     overflow: hidden;
     background: #000;
-    border-radius: 24px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 25px;
+    border: 2px solid rgba(255, 0, 95, 0.4);
+    box-shadow: 0 0 60px rgba(255, 0, 95, 0.2), inset 0 0 100px rgba(0,0,0,0.8);
 }
 
-/* Viñeta para realzar profundidad */
+/* Overlay de escaneo (Efecto Retro-Futurista) */
 .emo-carousel::after {
     content: "";
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
     pointer-events: none;
-    z-index: 2;
+    z-index: 5;
 }
 
 .emo-carousel .slides {
     display: flex;
     height: 100%;
-    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1); /* Transición suave tipo cine */
 }
 
 .emo-carousel .slide {
@@ -108,103 +92,90 @@ $uri = service('uri')->getPath();
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.05); /* Efecto zoom inicial */
-    transition: transform 10s linear;
+    filter: brightness(0.7) contrast(1.1);
+    transform: scale(1.05);
+    transition: transform 6s linear; /* Efecto Ken Burns lento */
 }
 
-/* Animación Ken Burns al estar activo */
-.emo-carousel .slide.active img {
-    transform: scale(1.2);
-}
-
-/* Caption Dinámico */
-.emo-carousel .caption-box {
-    position: absolute;
-    bottom: 50px;
-    left: 50px;
-    z-index: 10;
-    max-width: 80%;
+/* Cuando el slide está activo (clase manejada por JS opcionalmente o solo el efecto base) */
+.emo-carousel .slide:hover img {
+    transform: scale(1.15);
 }
 
 .emo-carousel h5 {
+    position: absolute;
+    bottom: 50px;
+    right: 50px; /* Movido a la derecha para un look más editorial */
+    margin: 0;
     color: #fff;
     font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
+    font-weight: 900;
     font-size: 2.5rem;
     text-transform: uppercase;
-    margin: 0;
-    padding: 10px 20px;
-    background: linear-gradient(90deg, var(--accent-color), transparent);
-    border-left: 5px solid #fff;
-    clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
-    opacity: 0;
-    transform: translateX(-50px);
-    transition: all 0.8s 0.5s ease-out;
+    text-align: right;
+    line-height: 1;
+    z-index: 10;
+    text-shadow: 4px 4px 0px #ff0050;
+    animation: slideUpText 1s ease;
 }
 
-.slide.active h5 {
-    opacity: 1;
-    transform: translateX(0);
+.emo-carousel h5 span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: #ff0050;
+    text-shadow: none;
 }
 
-/* Barra de progreso inferior */
-.carousel-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 4px;
-    background: var(--accent-color);
-    width: 0%;
-    z-index: 20;
-    box-shadow: 0 0 15px var(--accent-color);
+/* -------- ANIMACIONES -------- */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpText {
+    from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 </style>
 
-<nav class="emo-breadcrumb" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="<?= site_url('/') ?>"><i class="bi bi-house-door"></i> Inicio</a>
-        </li>
+<div class="container-fluid px-4">
+    <nav class="emo-breadcrumb" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?= site_url('/') ?>">Inicio</a></li>
+            <?php if ($uri === 'carrusel'): ?>
+                <li class="breadcrumb-item active">Carrusel</li>
+            <?php elseif ($uri === 'carrusel/nuevo'): ?>
+                <li class="breadcrumb-item"><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+                <li class="breadcrumb-item active">Nuevo</li>
+            <?php elseif ($uri === 'formulario'): ?>
+                <li class="breadcrumb-item active">Formulario</li>
+            <?php elseif ($uri === 'registro'): ?>
+                <li class="breadcrumb-item active">Registro</li>
+            <?php endif; ?>
+        </ol>
+    </nav>
 
-        <?php if ($uri === 'carrusel'): ?>
-            <li class="breadcrumb-item active">/ Galería</li>
-
-        <?php elseif ($uri === 'carrusel/nuevo'): ?>
-            <li class="breadcrumb-item">
-                <a href="<?= site_url('carrusel') ?>">Galería</a>
-            </li>
-            <li class="breadcrumb-item active">/ Editor</li>
-
-        <?php elseif ($uri === 'formulario'): ?>
-            <li class="breadcrumb-item active">/ Formulario Intel</li>
-
-        <?php elseif ($uri === 'registro'): ?>
-            <li class="breadcrumb-item active">/ Data Entry</li>
-        <?php endif; ?>
-    </ol>
-</nav>
-
-<div class="emo-carousel" id="emoCarousel">
-    <div class="carousel-progress" id="progressBar"></div>
-    
-    <div class="slides">
-        <?php if (!empty($imagenes)): ?>
-            <?php foreach ($imagenes as $index => $img): ?>
-                <div class="slide <?= $index === 0 ? 'active' : '' ?>">
-                    <img src="/img/<?= esc($img['nombre_archivo']) ?>">
-                    <div class="caption-box">
-                        <h5><?= esc($img['titulo']) ?></h5>
+    <div class="emo-carousel" id="emoCarousel">
+        <div class="slides">
+            <?php if (!empty($imagenes)): ?>
+                <?php foreach ($imagenes as $img): ?>
+                    <div class="slide">
+                        <img src="/img/<?= esc($img['nombre_archivo']) ?>" alt="slide">
+                        <h5>
+                            <span>GALERÍA</span>
+                            <?= esc($img['titulo']) ?>
+                        </h5>
                     </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070" alt="no-signal">
+                    <h5><span>ERROR 404</span>NO SIGNAL</h5>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="slide active">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1200">
-                <div class="caption-box">
-                    <h5>NO DATA FOUND</h5>
-                </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
@@ -212,32 +183,21 @@ $uri = service('uri')->getPath();
 (() => {
     const container = document.querySelector('#emoCarousel .slides');
     const slides = document.querySelectorAll('#emoCarousel .slide');
-    const progress = document.querySelector('#progressBar');
+    if(!container || slides.length === 0) return;
+
     let index = 0;
-    const intervalTime = 5000; // 5 segundos por slide
 
-    function updateCarousel() {
-        // Reiniciar barra de progreso
-        progress.style.transition = 'none';
-        progress.style.width = '0%';
-        
-        setTimeout(() => {
-            progress.style.transition = `width ${intervalTime}ms linear`;
-            progress.style.width = '100%';
-        }, 50);
-
-        // Mover Slides
-        container.style.transform = `translateX(-${index * 100}%)`;
-        
-        // Manejar clases activas para animaciones CSS
-        slides.forEach(s => s.classList.remove('active'));
-        slides[index].classList.add('active');
-
+    const nextSlide = () => {
         index = (index + 1) % slides.length;
-    }
+        container.style.transform = `translateX(-${index * 100}%)`;
+    };
 
-    // Iniciar el ciclo
-    updateCarousel();
-    setInterval(updateCarousel, intervalTime);
+    // Cambio automático con tiempo profesional
+    let timer = setInterval(nextSlide, 5000);
+
+    // Pausar al pasar el mouse
+    const mainContainer = document.querySelector('#emoCarousel');
+    mainContainer.addEventListener('mouseenter', () => clearInterval(timer));
+    mainContainer.addEventListener('mouseleave', () => timer = setInterval(nextSlide, 5000));
 })();
 </script>
