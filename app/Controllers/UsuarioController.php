@@ -107,4 +107,17 @@ class UsuarioController extends BaseController
 
         return $this->response->setJSON(['ok' => true]);
     }
+    public function buscar()
+{
+    $model = new UsuarioModel();
+    $texto = $this->request->getGet('q');
+
+    $usuarios = $model
+        ->like('nombre', $texto)
+        ->orLike('correo', $texto)
+        ->findAll();
+
+    return $this->response->setJSON($usuarios);
+}
+
 }

@@ -14,7 +14,9 @@
 </head>
 <body>
 
-<h2>CRUD Usuarios (Fetch + DOM)</h2>
+<h2>CRUD</h2>
+<input type="text" id="buscar" placeholder="Buscar usuario...">
+
 
 <form id="formUsuario">
     <input type="hidden" id="id">

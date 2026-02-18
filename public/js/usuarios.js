@@ -73,3 +73,35 @@ function eliminar(id) {
 }
 
 cargarUsuarios();
+const buscarInput = document.getElementById('buscar');
+
+buscarInput.addEventListener('keyup', function() {
+    const texto = this.value;
+
+    if (texto === '') {
+        cargarUsuarios();
+        return;
+    }
+
+    fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
+        .then(res => res.json())
+        .then(data => {
+            tabla.innerHTML = '';
+
+            data.forEach(usuario => {
+                const fila = document.createElement('tr');
+
+                fila.innerHTML = `
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.correo}</td>
+                    <td>
+                        <button onclick="editar(${usuario.id})">Editar</button>
+                        <button onclick="eliminar(${usuario.id})">Eliminar</button>
+                    </td>
+                `;
+
+                tabla.appendChild(fila);
+            });
+        });
+});
+
