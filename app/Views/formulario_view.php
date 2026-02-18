@@ -7,7 +7,7 @@ $uri = service('uri')->getPath();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Terminal | MORENSISTEM</title>
+    <title>Terminal de Validación | MORENSISTEM</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -32,7 +32,9 @@ $uri = service('uri')->getPath();
             padding-bottom: 50px;
         }
 
-        /* -------- BREADCRUMB MODERNO -------- */
+        /* ===============================
+           BREADCRUMB (VITAL IMPORTANCE)
+        ================================ */
         .emo-breadcrumb {
             margin: 30px 0;
             animation: fadeInDown 0.8s ease;
@@ -42,31 +44,44 @@ $uri = service('uri')->getPath();
             display: inline-flex;
             align-items: center;
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            padding: 10px 25px;
+            backdrop-filter: blur(12px);
+            padding: 12px 25px;
             border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(160, 0, 255, 0.3);
             list-style: none;
-            gap: 12px;
+            gap: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .emo-breadcrumb a {
             color: #888;
             text-decoration: none;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: 0.3s;
         }
 
-        .emo-breadcrumb a:hover { color: var(--primary-glow); }
+        .emo-breadcrumb a:hover { 
+            color: var(--primary-glow);
+            text-shadow: 0 0 8px var(--primary-glow);
+        }
 
-        .emo-breadcrumb .sep { color: var(--secondary-glow); font-size: 0.6rem; }
+        /* Tu estrella ⛧ con estilo Neón */
+        .emo-breadcrumb .sep { 
+            margin: 0 10px;
+            color: var(--secondary-glow); 
+            font-size: 1.1rem; 
+            text-shadow: 0 0 8px var(--secondary-glow);
+        }
 
         .emo-breadcrumb .active {
             color: #fff;
             font-family: 'Share Tech Mono', monospace;
+            background: rgba(160, 0, 255, 0.15);
+            padding: 2px 12px;
+            border-radius: 4px;
             text-shadow: 0 0 10px var(--primary-glow);
         }
 
@@ -84,7 +99,7 @@ $uri = service('uri')->getPath();
         .emo-header {
             background: linear-gradient(90deg, #1a002e, #2e001a);
             padding: 25px;
-            border-bottom: 1px solid rgba(160, 0, 255, 0.3);
+            border-bottom: 2px solid var(--primary-glow);
             text-align: center;
         }
 
@@ -99,6 +114,16 @@ $uri = service('uri')->getPath();
         }
 
         /* -------- INPUTS ESTILO CYBER -------- */
+        label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
         .input-group-text {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid #333;
@@ -122,17 +147,6 @@ $uri = service('uri')->getPath();
             color: #fff;
         }
 
-        label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        /* -------- BOTÓN DE ACCIÓN -------- */
         .btn-emo {
             background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
             border: none;
@@ -141,9 +155,8 @@ $uri = service('uri')->getPath();
             letter-spacing: 2px;
             text-transform: uppercase;
             border-radius: 12px;
+            color: white;
             transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-emo:hover {
@@ -182,14 +195,24 @@ $uri = service('uri')->getPath();
             <li><a href="<?= site_url('/') ?>"><i class="bi bi-house-door"></i> Inicio</a></li>
             
             <?php if ($uri === 'formulario'): ?>
-                <li class="sep"><i class="bi bi-caret-right-fill"></i></li>
+                <li class="sep">⛧</li>
                 <li class="active">TERMINAL_DATOS</li>
 
             <?php elseif ($uri === 'registro'): ?>
-                <li class="sep"><i class="bi bi-caret-right-fill"></i></li>
+                <li class="sep">⛧</li>
                 <li><a href="<?= site_url('formulario') ?>">Formulario</a></li>
-                <li class="sep"><i class="bi bi-caret-right-fill"></i></li>
+                <li class="sep">⛧</li>
                 <li class="active">NUEVO_REGISTRO</li>
+
+            <?php elseif ($uri === 'carrusel'): ?>
+                <li class="sep">⛧</li>
+                <li class="active">Carrusel</li>
+
+            <?php elseif ($uri === 'carrusel/nuevo'): ?>
+                <li class="sep">⛧</li>
+                <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+                <li class="sep">⛧</li>
+                <li class="active">Nuevo</li>
             <?php endif; ?>
         </ol>
     </nav>
