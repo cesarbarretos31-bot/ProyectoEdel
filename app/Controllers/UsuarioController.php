@@ -6,24 +6,27 @@ use App\Models\UsuarioModel;
 
 class UsuarioController extends BaseController
 {
+    /*
+    |--------------------------------------------------------------------------
+    | VISTA FETCH
+    |--------------------------------------------------------------------------
+    */
     public function index()
     {
-        $model = new UsuarioModel();
-        $data['usuarios'] = $model->findAll();
-
-        return view('usuarios/index', $data);
+        return view('usuarios/fetch');
     }
 
-    public function crear()
-    {
-        return view('usuarios/crear');
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | CRUD CLÁSICO (REDIRECT)
+    |--------------------------------------------------------------------------
+    */
 
-    public function guardar()
+    public function guardarVista()
     {
         $model = new UsuarioModel();
 
-        $model->save([
+        $model->insert([
             'nombre'    => $this->request->getPost('nombre'),
             'correo'    => $this->request->getPost('correo'),
             'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
@@ -33,33 +36,68 @@ class UsuarioController extends BaseController
         return redirect()->to('/usuarios');
     }
 
-    public function editar($id)
+    public function actualizarVista($id)
     {
         $model = new UsuarioModel();
-        $data['usuario'] = $model->find($id);
 
-        return view('usuarios/editar', $data);
+        $model->update($id, [
+            'nombre' => $this->request->getPost('nombre'),
+            'correo' => $this->request->getPost('correo'),
+        ]);
+
+        return redirect()->to('/usuarios');
+    }
+
+    public function eliminarVista($id)
+    {
+        $model = new UsuarioModel();
+        $model->delete($id);
+
+        return redirect()->to('/usuarios');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | API JSON PARA FETCH
+    |--------------------------------------------------------------------------
+    */
+
+    public function listar()
+    {
+        $model = new UsuarioModel();
+        return $this->response->setJSON($model->findAll());
+    }
+
+    public function obtener($id)
+    {
+        $model = new UsuarioModel();
+        return $this->response->setJSON($model->find($id));
+    }
+
+    public function guardar()
+    {
+        $model = new UsuarioModel();
+
+        $model->insert([
+            'nombre'    => $this->request->getPost('nombre'),
+            'correo'    => $this->request->getPost('correo'),
+            'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'creado_en' => date('Y-m-d H:i:s'),
+        ]);
+
+        return $this->response->setJSON(['ok' => true]);
     }
 
     public function actualizar($id)
     {
         $model = new UsuarioModel();
 
-        $data = [
+        $model->update($id, [
             'nombre' => $this->request->getPost('nombre'),
             'correo' => $this->request->getPost('correo'),
-        ];
+        ]);
 
-        if ($this->request->getPost('password')) {
-            $data['password'] = password_hash(
-                $this->request->getPost('password'),
-                PASSWORD_DEFAULT
-            );
-        }
-
-        $model->update($id, $data);
-
-        return redirect()->to('/usuarios');
+        return $this->response->setJSON(['ok' => true]);
     }
 
     public function eliminar($id)
@@ -67,6 +105,6 @@ class UsuarioController extends BaseController
         $model = new UsuarioModel();
         $model->delete($id);
 
-        return redirect()->to('/usuarios');
+        return $this->response->setJSON(['ok' => true]);
     }
 }

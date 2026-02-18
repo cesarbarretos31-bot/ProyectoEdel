@@ -18,14 +18,40 @@ $routes->post('registro', 'AuthController::registro');
 $routes->get('carrusel', 'Carrusel::index');
 $routes->get('carrusel/nuevo', 'Carrusel::nuevo');   // Ruta para ver el formulario
 $routes->post('carrusel/guardar', 'Carrusel::guardar'); 
-    $routes->get('usuarios', 'UsuarioController::index');
+/*
+|--------------------------------------------------------------------------
+| CRUD NORMAL (VISTAS)
+|--------------------------------------------------------------------------
+*/
+$routes->get('usuarios', 'UsuarioController::index');
 $routes->get('usuarios/crear', 'UsuarioController::crear');
-$routes->post('usuarios/guardar', 'UsuarioController::guardar');
+$routes->post('usuarios/guardar', 'UsuarioController::guardarVista');
 
 $routes->get('usuarios/editar/(:num)', 'UsuarioController::editar/$1');
-$routes->post('usuarios/actualizar/(:num)', 'UsuarioController::actualizar/$1');
+$routes->post('usuarios/actualizar/(:num)', 'UsuarioController::actualizarVista/$1');
 
-$routes->get('usuarios/eliminar/(:num)', 'UsuarioController::eliminar/$1');// Ruta para procesar el envío
+$routes->get('usuarios/eliminar/(:num)', 'UsuarioController::eliminarVista/$1');
+
+
+/*
+|--------------------------------------------------------------------------
+| API PARA FETCH
+|--------------------------------------------------------------------------
+*/
+$routes->get('api/usuarios', 'UsuarioController::listar');
+$routes->get('api/usuarios/(:num)', 'UsuarioController::obtener/$1');
+$routes->post('api/usuarios', 'UsuarioController::guardar');
+$routes->post('api/usuarios/(:num)', 'UsuarioController::actualizar/$1');
+$routes->delete('api/usuarios/(:num)', 'UsuarioController::eliminar/$1');
+
+
+/*
+|--------------------------------------------------------------------------
+| VISTA FETCH
+|--------------------------------------------------------------------------
+*/
+$routes->get('usuarios-fetch', 'UsuarioController::index');
+
 $routes->set404Override(function () {
     return view('errors/error_custom');
 

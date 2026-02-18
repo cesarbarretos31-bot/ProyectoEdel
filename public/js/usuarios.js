@@ -1,20 +1,25 @@
 const tabla = document.getElementById('tablaUsuarios');
 const form = document.getElementById('formUsuario');
 
-function cargar() {
-    fetch(`${BASE_URL}/usuario/listar`)
+const idInput = document.getElementById('id');
+const nombre = document.getElementById('nombre');
+const correo = document.getElementById('correo');
+const password = document.getElementById('password');
 
-        .then(r => r.json())
+function cargarUsuarios() {
+    fetch(`${BASE}/api/usuarios`)
+        .then(res => res.json())
         .then(data => {
             tabla.innerHTML = '';
-            data.forEach(u => {
+
+            data.forEach(usuario => {
                 tabla.innerHTML += `
                     <tr>
-                        <td>${u.nombre}</td>
-                        <td>${u.correo}</td>
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.correo}</td>
                         <td>
-                            <button onclick="editar(${u.id})">✏️</button>
-                            <button onclick="eliminar(${u.id})">❌</button>
+                            <button onclick="editar(${usuario.id})">Editar</button>
+                            <button onclick="eliminar(${usuario.id})">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -22,34 +27,49 @@ function cargar() {
         });
 }
 
-form.onsubmit = e => {
+form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const id = document.getElementById('id').value;
-    const url = id ? `/usuario/actualizar/${id}` : '/usuario/guardar';
+    const id = idInput.value;
+    const url = id 
+        ? `${BASE}/api/usuarios/${id}` 
+        : `${BASE}/api/usuarios`;
+
+    const formData = new FormData();
+    formData.append('nombre', nombre.value);
+    formData.append('correo', correo.value);
+    formData.append('password', password.value);
 
     fetch(url, {
         method: 'POST',
-        body: new FormData(form)
-    }).then(() => {
+        body: formData
+    })
+    .then(res => res.json())
+    .then(() => {
         form.reset();
-        cargar();
+        idInput.value = '';
+        cargarUsuarios();
     });
-};
+});
 
 function editar(id) {
-    fetch(`${BASE_URL}/usuario/obtener/${id}`)
-        .then(r => r.json())
-        .then(u => {
-            document.getElementById('id').value = u.id;
-            document.getElementById('nombre').value = u.nombre;
-            document.getElementById('correo').value = u.correo;
+    fetch(`${BASE}/api/usuarios/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            idInput.value = data.id;
+            nombre.value = data.nombre;
+            correo.value = data.correo;
         });
 }
 
 function eliminar(id) {
-    fetch(`${BASE_URL}  /usuario/eliminar/${id}`, { method: 'DELETE' })
-        .then(() => cargar());
+    if (!confirm("¿Eliminar usuario?")) return;
+
+    fetch(`${BASE}/api/usuarios/${id}`, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(() => cargarUsuarios());
 }
 
-cargar();
+cargarUsuarios();

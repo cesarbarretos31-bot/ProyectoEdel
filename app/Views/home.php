@@ -138,6 +138,11 @@ body {
         <a class="emo-btn" href="<?= site_url('registro') ?>">
             REGISTRO
         </a>
+           </a>
+
+        <a class="emo-btn" href="<?= site_url('usuarios') ?>">
+            CRUD
+        </a>
 
     </div>
 
