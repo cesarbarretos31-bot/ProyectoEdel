@@ -10,16 +10,19 @@
         table { width: 100%; margin-top: 20px; border-collapse: collapse; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
         th { background: #333; color: white; }
+        #estadoBusqueda { margin-top: 10px; font-weight: bold; }
+        .resaltado { background: yellow; }
     </style>
 </head>
 <body>
 
-<h2>CRUD</h2>
+<h2>CRUD Usuarios (Fetch + DOM)</h2>
+
+<!-- 🔍 BUSCADOR -->
 <input type="text" id="buscar" placeholder="Buscar usuario...">
-<p id="estadoBusqueda" style="font-weight:bold;"></p>
+<p id="estadoBusqueda"></p>
 
-
-
+<!-- 📝 FORMULARIO -->
 <form id="formUsuario">
     <input type="hidden" id="id">
 
@@ -30,6 +33,7 @@
     <button type="submit">Guardar</button>
 </form>
 
+<!-- 📋 TABLA -->
 <table>
     <thead>
         <tr>
@@ -51,6 +55,9 @@ const idInput = document.getElementById('id');
 const nombre = document.getElementById('nombre');
 const correo = document.getElementById('correo');
 const password = document.getElementById('password');
+
+const buscarInput = document.getElementById('buscar');
+const estado = document.getElementById('estadoBusqueda');
 
 
 // 🔥 1️⃣ CARGAR USUARIOS
@@ -97,10 +104,11 @@ form.addEventListener('submit', function(e) {
         body: formData
     })
     .then(res => res.json())
-    .then(data => {
+    .then(() => {
         form.reset();
         idInput.value = '';
         cargarUsuarios();
+        estado.textContent = '✅ Registro guardado/actualizado';
     });
 });
 
@@ -113,6 +121,7 @@ function editar(id) {
             idInput.value = data.id;
             nombre.value = data.nombre;
             correo.value = data.correo;
+            estado.textContent = '✏ Editando usuario';
         });
 }
 
@@ -125,11 +134,69 @@ function eliminar(id) {
         method: 'DELETE'
     })
     .then(res => res.json())
-    .then(() => cargarUsuarios());
+    .then(() => {
+        cargarUsuarios();
+        estado.textContent = '🗑 Usuario eliminado';
+    });
 }
 
 
-// 🔥 5️⃣ CARGA INICIAL
+// 🔥 5️⃣ BUSCAR EN TIEMPO REAL
+buscarInput.addEventListener('keyup', function() {
+
+    const texto = this.value.trim();
+
+    if (texto === '') {
+        estado.textContent = '';
+        cargarUsuarios();
+        return;
+    }
+
+    estado.textContent = '🔎 Buscando...';
+
+    fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
+        .then(res => res.json())
+        .then(data => {
+
+            tabla.innerHTML = '';
+
+            if (data.length === 0) {
+                estado.textContent = '❌ No se encontraron resultados';
+                return;
+            }
+
+            estado.textContent = `✅ ${data.length} resultado(s) encontrado(s)`;
+
+            data.forEach(usuario => {
+
+                const nombreResaltado = usuario.nombre.replace(
+                    new RegExp(texto, "gi"),
+                    match => `<span class="resaltado">${match}</span>`
+                );
+
+                const correoResaltado = usuario.correo.replace(
+                    new RegExp(texto, "gi"),
+                    match => `<span class="resaltado">${match}</span>`
+                );
+
+                const fila = document.createElement('tr');
+
+                fila.innerHTML = `
+                    <td>${nombreResaltado}</td>
+                    <td>${correoResaltado}</td>
+                    <td>
+                        <button onclick="editar(${usuario.id})">Editar</button>
+                        <button onclick="eliminar(${usuario.id})">Eliminar</button>
+                    </td>
+                `;
+
+                tabla.appendChild(fila);
+            });
+        });
+});
+
+
+// 🔥 6️⃣ CARGA INICIAL
 cargarUsuarios();
 </script>
 

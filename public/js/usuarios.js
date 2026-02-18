@@ -76,55 +76,49 @@ cargarUsuarios();
 const buscarInput = document.getElementById('buscar');
 const estado = document.getElementById('estadoBusqueda');
 
-buscarInput.addEventListener('keyup', function() {
-    const texto = this.value.trim();
+if (buscarInput) {
 
-    if (texto === '') {
-        estado.textContent = '';
-        cargarUsuarios();
-        return;
-    }
+    buscarInput.addEventListener('keyup', function() {
 
-    estado.textContent = '🔎 Buscando...';
+        const texto = this.value.trim();
 
-    fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
-        .then(res => res.json())
-        .then(data => {
+        if (texto === '') {
+            estado.textContent = '';
+            cargarUsuarios();
+            return;
+        }
 
-            tabla.innerHTML = '';
+        estado.textContent = '🔎 Buscando...';
 
-            if (data.length === 0) {
-                estado.textContent = '❌ No se encontraron resultados';
-                return;
-            }
+        fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
+            .then(res => res.json())
+            .then(data => {
 
-            estado.textContent = `✅ ${data.length} resultado(s) encontrado(s)`;
+                tabla.innerHTML = '';
 
-            data.forEach(usuario => {
+                if (data.length === 0) {
+                    estado.textContent = '❌ No se encontraron resultados';
+                    return;
+                }
 
-                // 🔥 Resaltar coincidencia
-                const nombreResaltado = usuario.nombre.replace(
-                    new RegExp(texto, "gi"),
-                    match => `<span style="background:yellow">${match}</span>`
-                );
+                estado.textContent = `✅ ${data.length} resultado(s) encontrado(s)`;
 
-                const correoResaltado = usuario.correo.replace(
-                    new RegExp(texto, "gi"),
-                    match => `<span style="background:yellow">${match}</span>`
-                );
+                data.forEach(usuario => {
 
-                const fila = document.createElement('tr');
+                    const fila = document.createElement('tr');
 
-                fila.innerHTML = `
-                    <td>${nombreResaltado}</td>
-                    <td>${correoResaltado}</td>
-                    <td>
-                        <button onclick="editar(${usuario.id})">Editar</button>
-                        <button onclick="eliminar(${usuario.id})">Eliminar</button>
-                    </td>
-                `;
+                    fila.innerHTML = `
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.correo}</td>
+                        <td>
+                            <button onclick="editar(${usuario.id})">Editar</button>
+                            <button onclick="eliminar(${usuario.id})">Eliminar</button>
+                        </td>
+                    `;
 
-                tabla.appendChild(fila);
+                    tabla.appendChild(fila);
+                });
             });
-        });
-});
+    });
+
+}
