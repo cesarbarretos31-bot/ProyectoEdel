@@ -180,9 +180,7 @@
             <h1>MORENSISTEM</h1>
         </div>
 
-        <div class="subtitle">
-            Core Control · v2.0
-        </div>
+    
 
         <div class="btn-container">
 
@@ -213,9 +211,7 @@
 
         </div>
 
-        <div class="footer-text">
-            &copy; <?= date('Y') ?> &middot; Advanced System Interface
-        </div>
+        
 
     </div>
 

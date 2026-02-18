@@ -169,7 +169,7 @@
 <body>
 
 <div style="max-width: 1000px; margin: auto;">
-    <h2>USER_DATABASE</h2>
+    <h2>CRUD</h2>
     
     <nav class="breadcrumbs" id="breadcrumbs"></nav>
 
@@ -183,7 +183,7 @@
         <input type="text" id="nombre" placeholder="Nombre" required>
         <input type="email" id="correo" placeholder="Correo electrónico" required>
         <input type="password" id="password" placeholder="Contraseña">
-        <button type="submit">Sincronizar</button>
+        <button type="submit">GUARDAR</button>
     </form>
 
     <div class="table-container">
@@ -191,8 +191,8 @@
             <thead>
                 <tr>
                     <th>Nombre de Usuario</th>
-                    <th>Identificador de Correo</th>
-                    <th>Protocolos</th>
+                    <th>CORREO</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <tbody id="tablaUsuarios"></tbody>
