@@ -3,176 +3,203 @@ $uri = service('uri')->getPath();
 ?>
 
 <style>
-/* ===============================
-   ULTRA-PREMIUM EMO CAROUSEL
-   Estética: Cyber-Punk / Scene 2000s
-================================ */
+/* =========================================
+   VOID & NEON ARCHITECTURE (ULTRA-IMPRESSIVE)
+   ========================================= */
 
-/* -------- BREADCRUMBS MODERNO -------- */
+/* Fondo Base: Negro profundo con aura de movimiento */
+body {
+    background-color: #000;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(160, 0, 255, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.1) 0%, transparent 40%);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* -------- BREADCRUMB: CYBER-PATH -------- */
 .emo-breadcrumb {
-    margin: 30px 0;
-    animation: fadeInDown 0.8s ease;
+    margin: 40px 0;
+    perspective: 1000px;
 }
 
 .emo-breadcrumb ol {
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(15px);
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 0, 95, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 95, 0.1);
+    background: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #ff0050;
+    padding: 15px 30px;
+    border-radius: 0 50px 50px 0;
     display: inline-flex;
     list-style: none;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.8);
 }
 
 .emo-breadcrumb a {
-    color: #ff2d5f;
-    text-decoration: none;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    font-size: 13px;
+    color: #ff0050;
     text-transform: uppercase;
-    transition: 0.3s;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: 0.3s ease;
 }
 
 .emo-breadcrumb a:hover {
     color: #fff;
-    text-shadow: 0 0 12px #ff2d5f, 0 0 20px #ff2d5f;
-}
-
-.emo-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
-    content: "⚡";
-    color: #444;
-    padding: 0 10px;
+    text-shadow: 0 0 15px #ff0050, 0 0 30px #ff0050;
 }
 
 .emo-breadcrumb .active {
-    color: #eee;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 1px;
+    color: #666;
+    font-style: italic;
 }
 
-/* -------- CAROUSEL DE ALTO IMPACTO -------- */
+/* -------- CAROUSEL: THE VOID DISPLAY -------- */
 .emo-carousel {
     position: relative;
     width: 100%;
-    height: 600px; /* Un poco más alto para mayor impacto */
-    overflow: hidden;
+    height: 600px;
     background: #000;
-    border-radius: 25px;
-    border: 2px solid rgba(255, 0, 95, 0.4);
-    box-shadow: 0 0 60px rgba(255, 0, 95, 0.2), inset 0 0 100px rgba(0,0,0,0.8);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.9);
+    overflow: hidden;
 }
 
-/* Overlay de escaneo (Efecto Retro-Futurista) */
-.emo-carousel::after {
-    content: "";
+/* Marco de luz perimetral (Glow dinámico) */
+.emo-carousel::before {
+    content: '';
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 3px, 3px 100%;
-    pointer-events: none;
-    z-index: 5;
+    inset: -2px;
+    background: linear-gradient(45deg, #ff0050, #a000ff, #ff0050);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.3;
 }
 
 .emo-carousel .slides {
     display: flex;
     height: 100%;
-    transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1); /* Transición suave tipo cine */
+    transition: transform 1.2s cubic-bezier(0.9, 0, 0.1, 1);
 }
 
 .emo-carousel .slide {
     min-width: 100%;
     position: relative;
-    overflow: hidden;
 }
 
 .emo-carousel img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.7) contrast(1.1);
-    transform: scale(1.05);
-    transition: transform 6s linear; /* Efecto Ken Burns lento */
+    filter: brightness(0.5) contrast(1.2);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
-/* Cuando el slide está activo (clase manejada por JS opcionalmente o solo el efecto base) */
-.emo-carousel .slide:hover img {
-    transform: scale(1.15);
+/* Tipografía de Impacto Brutal */
+.emo-carousel .content-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
 }
 
 .emo-carousel h5 {
-    position: absolute;
-    bottom: 50px;
-    right: 50px; /* Movido a la derecha para un look más editorial */
-    margin: 0;
-    color: #fff;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 5rem;
     font-weight: 900;
-    font-size: 2.5rem;
     text-transform: uppercase;
-    text-align: right;
-    line-height: 1;
-    z-index: 10;
-    text-shadow: 4px 4px 0px #ff0050;
-    animation: slideUpText 1s ease;
+    letter-spacing: -2px;
+    margin: 0;
+    background: linear-gradient(to bottom, #fff 30%, #ff0050 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(255, 0, 80, 0.5));
+    transform: skew(-5deg);
 }
 
-.emo-carousel h5 span {
-    display: block;
+.emo-carousel .sub-title {
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    letter-spacing: 15px;
     font-size: 1rem;
-    font-weight: 300;
-    letter-spacing: 8px;
-    color: #ff0050;
-    text-shadow: none;
+    opacity: 0.6;
+    margin-top: -10px;
 }
 
-/* -------- ANIMACIONES -------- */
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Barra de progreso de tiempo */
+.progress-bar-emo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: #ff0050;
+    box-shadow: 0 0 15px #ff0050;
+    z-index: 20;
+    width: 0%;
 }
 
-@keyframes slideUpText {
-    from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+/* Efecto Glitch sutil */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
 }
+
+.emo-carousel:hover h5 {
+    animation: glitch 0.3s infinite linear;
+}
+
 </style>
 
-<div class="container-fluid px-4">
+<div class="container-fluid py-4 px-5">
+
     <nav class="emo-breadcrumb" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= site_url('/') ?>">Inicio</a></li>
+        <ol>
+            <li class="breadcrumb-item"><a href="<?= site_url('/') ?>">SYSTEM_START</a></li>
             <?php if ($uri === 'carrusel'): ?>
-                <li class="breadcrumb-item active">Carrusel</li>
+                <li class="breadcrumb-item active">/CORE/GALLERY</li>
             <?php elseif ($uri === 'carrusel/nuevo'): ?>
-                <li class="breadcrumb-item"><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
-                <li class="breadcrumb-item active">Nuevo</li>
-            <?php elseif ($uri === 'formulario'): ?>
-                <li class="breadcrumb-item active">Formulario</li>
-            <?php elseif ($uri === 'registro'): ?>
-                <li class="breadcrumb-item active">Registro</li>
+                <li class="breadcrumb-item"><a href="<?= site_url('carrusel') ?>">GALLERY</a></li>
+                <li class="breadcrumb-item active">/NEW_ENTRY</li>
             <?php endif; ?>
         </ol>
     </nav>
 
     <div class="emo-carousel" id="emoCarousel">
+        <div class="progress-bar-emo" id="progressBar"></div>
+        
         <div class="slides">
             <?php if (!empty($imagenes)): ?>
                 <?php foreach ($imagenes as $img): ?>
                     <div class="slide">
-                        <img src="/img/<?= esc($img['nombre_archivo']) ?>" alt="slide">
-                        <h5>
-                            <span>GALERÍA</span>
-                            <?= esc($img['titulo']) ?>
-                        </h5>
+                        <img src="/img/<?= esc($img['nombre_archivo']) ?>" alt="visual">
+                        <div class="content-overlay">
+                            <h5><?= esc($img['titulo']) ?></h5>
+                            <div class="sub-title">ARCHIVE_FILE_2026</div>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="slide">
-                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070" alt="no-signal">
-                    <h5><span>ERROR 404</span>NO SIGNAL</h5>
+                    <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2070" alt="empty">
+                    <div class="content-overlay">
+                        <h5>NO_SIGNAL</h5>
+                        <div class="sub-title">SYSTEM_FATAL_ERROR</div>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>
@@ -183,21 +210,40 @@ $uri = service('uri')->getPath();
 (() => {
     const container = document.querySelector('#emoCarousel .slides');
     const slides = document.querySelectorAll('#emoCarousel .slide');
+    const progress = document.querySelector('#progressBar');
     if(!container || slides.length === 0) return;
 
     let index = 0;
+    const duration = 5000; // 5 segundos
+
+    const updateProgress = () => {
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+        setTimeout(() => {
+            progress.style.transition = `width ${duration}ms linear`;
+            progress.style.width = '100%';
+        }, 10);
+    };
 
     const nextSlide = () => {
         index = (index + 1) % slides.length;
         container.style.transform = `translateX(-${index * 100}%)`;
+        updateProgress();
     };
 
-    // Cambio automático con tiempo profesional
-    let timer = setInterval(nextSlide, 5000);
+    updateProgress();
+    let timer = setInterval(nextSlide, duration);
 
-    // Pausar al pasar el mouse
+    // Interacción
     const mainContainer = document.querySelector('#emoCarousel');
-    mainContainer.addEventListener('mouseenter', () => clearInterval(timer));
-    mainContainer.addEventListener('mouseleave', () => timer = setInterval(nextSlide, 5000));
+    mainContainer.addEventListener('mouseenter', () => {
+        clearInterval(timer);
+        progress.style.opacity = '0';
+    });
+    mainContainer.addEventListener('mouseleave', () => {
+        timer = setInterval(nextSlide, duration);
+        progress.style.opacity = '1';
+        updateProgress();
+    });
 })();
 </script>
