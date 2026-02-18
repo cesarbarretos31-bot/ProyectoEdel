@@ -16,6 +16,8 @@
 
 <h2>CRUD</h2>
 <input type="text" id="buscar" placeholder="Buscar usuario...">
+<p id="estadoBusqueda" style="font-weight:bold;"></p>
+
 
 
 <form id="formUsuario">

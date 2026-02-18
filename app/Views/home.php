@@ -193,7 +193,7 @@
 
             <a class="emo-btn" href="<?= site_url('carrusel/nuevo') ?>">
                 <i class="bi bi-plus-circle-dotted"></i>
-                <span>NUEVO</span>
+                <span>NUEVA IMAGEN</span>
             </a>
 
             <a class="emo-btn" href="<?= site_url('formulario') ?>">

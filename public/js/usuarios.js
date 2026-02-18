@@ -74,26 +74,50 @@ function eliminar(id) {
 
 cargarUsuarios();
 const buscarInput = document.getElementById('buscar');
+const estado = document.getElementById('estadoBusqueda');
 
 buscarInput.addEventListener('keyup', function() {
-    const texto = this.value;
+    const texto = this.value.trim();
 
     if (texto === '') {
+        estado.textContent = '';
         cargarUsuarios();
         return;
     }
 
+    estado.textContent = '🔎 Buscando...';
+
     fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
         .then(res => res.json())
         .then(data => {
+
             tabla.innerHTML = '';
 
+            if (data.length === 0) {
+                estado.textContent = '❌ No se encontraron resultados';
+                return;
+            }
+
+            estado.textContent = `✅ ${data.length} resultado(s) encontrado(s)`;
+
             data.forEach(usuario => {
+
+                // 🔥 Resaltar coincidencia
+                const nombreResaltado = usuario.nombre.replace(
+                    new RegExp(texto, "gi"),
+                    match => `<span style="background:yellow">${match}</span>`
+                );
+
+                const correoResaltado = usuario.correo.replace(
+                    new RegExp(texto, "gi"),
+                    match => `<span style="background:yellow">${match}</span>`
+                );
+
                 const fila = document.createElement('tr');
 
                 fila.innerHTML = `
-                    <td>${usuario.nombre}</td>
-                    <td>${usuario.correo}</td>
+                    <td>${nombreResaltado}</td>
+                    <td>${correoResaltado}</td>
                     <td>
                         <button onclick="editar(${usuario.id})">Editar</button>
                         <button onclick="eliminar(${usuario.id})">Eliminar</button>
@@ -104,4 +128,3 @@ buscarInput.addEventListener('keyup', function() {
             });
         });
 });
-
