@@ -1,34 +1,22 @@
-<?= breadcrumbs([
-    ['title'=>'Inicio','url'=>site_url('/')],
-    ['title'=>'Usuarios','url'=>site_url('usuarios')],
-    ['title'=>'Listado','url'=>'']
-]) ?>
+<h2>Lista de Usuarios</h2>
 
-<div class="container mt-4">
-    <form id="formUsuario">
-        <input type="hidden" id="id">
+<a href="<?= site_url('usuarios/crear') ?>">Crear Usuario</a>
 
-        <input class="form-control mb-2" id="nombre" placeholder="Nombre" required>
-        <input class="form-control mb-2" id="correo" placeholder="Correo" required>
-        <input class="form-control mb-2" id="password" placeholder="Password">
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+    </tr>
 
-        <button class="btn btn-primary w-100">Guardar</button>
-    </form>
-
-    <table class="table table-dark mt-4">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tablaUsuarios"></tbody>
-    </table>
-</div>
-
-<script>
-const BASE_URL = "<?= base_url() ?>";
-</script>
-
-<script src="<?= base_url('js/usuarios.js') ?>"></script>
+    <?php foreach ($usuarios as $u): ?>
+        <tr>
+            <td><?= $u['nombre'] ?></td>
+            <td><?= $u['correo'] ?></td>
+            <td>
+                <a href="<?= site_url('usuarios/editar/'.$u['id']) ?>">Editar</a>
+                <a href="<?= site_url('usuarios/eliminar/'.$u['id']) ?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

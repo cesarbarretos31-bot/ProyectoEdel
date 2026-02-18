@@ -8,43 +8,42 @@ class UsuarioController extends BaseController
 {
     public function index()
     {
-        return view('usuarios/index');
+        $model = new UsuarioModel();
+        $data['usuarios'] = $model->findAll();
+
+        return view('usuarios/index', $data);
+    }
+
+    public function crear()
+    {
+        return view('usuarios/crear');
     }
 
     public function guardar()
     {
-        $usuarioModel = new UsuarioModel();
+        $model = new UsuarioModel();
 
-        $data = [
+        $model->save([
             'nombre'    => $this->request->getPost('nombre'),
             'correo'    => $this->request->getPost('correo'),
-            'password'  => password_hash(
-                $this->request->getPost('password'),
-                PASSWORD_DEFAULT
-            ),
+            'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
             'creado_en' => date('Y-m-d H:i:s'),
-        ];
+        ]);
 
-        $usuarioModel->insert($data);
-
-        return $this->response->setJSON(['ok' => true]);
+        return redirect()->to('/usuarios');
     }
 
-    public function listar()
+    public function editar($id)
     {
-        $usuarioModel = new UsuarioModel();
-        return $this->response->setJSON($usuarioModel->findAll());
-    }
+        $model = new UsuarioModel();
+        $data['usuario'] = $model->find($id);
 
-    public function obtener($id)
-    {
-        $usuarioModel = new UsuarioModel();
-        return $this->response->setJSON($usuarioModel->find($id));
+        return view('usuarios/editar', $data);
     }
 
     public function actualizar($id)
     {
-        $usuarioModel = new UsuarioModel();
+        $model = new UsuarioModel();
 
         $data = [
             'nombre' => $this->request->getPost('nombre'),
@@ -58,16 +57,16 @@ class UsuarioController extends BaseController
             );
         }
 
-        $usuarioModel->update($id, $data);
+        $model->update($id, $data);
 
-        return $this->response->setJSON(['ok' => true]);
+        return redirect()->to('/usuarios');
     }
 
     public function eliminar($id)
     {
-        $usuarioModel = new UsuarioModel();
-        $usuarioModel->delete($id);
+        $model = new UsuarioModel();
+        $model->delete($id);
 
-        return $this->response->setJSON(['ok' => true]);
+        return redirect()->to('/usuarios');
     }
 }
