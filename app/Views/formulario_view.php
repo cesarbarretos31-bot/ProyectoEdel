@@ -5,302 +5,231 @@ $uri = service('uri')->getPath();
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal de Validación | MORENSISTEM</title>
+    <?= view('partials/breadcrumbs') ?>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<meta charset="UTF-8">
+<title>Formulario Validado</title>
 
-    <style>
-        :root {
-            --primary-glow: #a000ff;
-            --secondary-glow: #ff0055;
-            --dark-bg: #050505;
-            --glass-card: rgba(15, 15, 15, 0.85);
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--dark-bg);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(160, 0, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 85, 0.05) 0%, transparent 50%);
-            font-family: 'Montserrat', sans-serif;
-            color: #e0e0e0;
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
+<style>
+/* ===============================
+   BASE DARK EMO
+================================ */
+body {
+    background: radial-gradient(circle at top, #1b1b1b, #000);
+    font-family: 'Montserrat', sans-serif;
+    color: #e0e0e0;
+}
 
-        /* ===============================
-           BREADCRUMB (VITAL IMPORTANCE)
-        ================================ */
-        .emo-breadcrumb {
-            margin: 30px 0;
-            animation: fadeInDown 0.8s ease;
-        }
+/* ===============================
+   BREADCRUMB EMO (UNA SOLA CLASE)
+================================ */
+.emo-breadcrumb {
+    margin-bottom: 35px;
+    animation: emoIn .6s ease;
+}
 
-        .emo-breadcrumb ol {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 1px solid rgba(160, 0, 255, 0.3);
-            list-style: none;
-            gap: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.emo-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: linear-gradient(145deg, #0b0b0b, #141414);
+    padding: 14px 22px;
+    border-radius: 14px;
+    box-shadow: 0 0 25px rgba(160,0,255,.35);
+    font-family: 'Courier New', monospace;
+    list-style: none;
+}
 
-        .emo-breadcrumb a {
-            color: #888;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
+.emo-breadcrumb a {
+    color: #c77dff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 13px;
+    position: relative;
+}
 
-        .emo-breadcrumb a:hover { 
-            color: var(--primary-glow);
-            text-shadow: 0 0 8px var(--primary-glow);
-        }
+.emo-breadcrumb a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #c77dff;
+    transition: .3s;
+}
 
-        /* Tu estrella ⛧ con estilo Neón */
-        .emo-breadcrumb .sep { 
-            margin: 0 10px;
-            color: var(--secondary-glow); 
-            font-size: 1.1rem; 
-            text-shadow: 0 0 8px var(--secondary-glow);
-        }
+.emo-breadcrumb a:hover::after {
+    width: 100%;
+}
 
-        .emo-breadcrumb .active {
-            color: #fff;
-            font-family: 'Share Tech Mono', monospace;
-            background: rgba(160, 0, 255, 0.15);
-            padding: 2px 12px;
-            border-radius: 4px;
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
+.emo-breadcrumb .active {
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px rgba(255,255,255,.4);
+}
 
-        /* -------- CARD DE FORMULARIO -------- */
-        .emo-card {
-            background: var(--glass-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease;
-        }
+.emo-breadcrumb .sep {
+    color: #444;
+}
 
-        .emo-header {
-            background: linear-gradient(90deg, #1a002e, #2e001a);
-            padding: 25px;
-            border-bottom: 2px solid var(--primary-glow);
-            text-align: center;
-        }
+@keyframes emoIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .emo-header h4 {
-            font-weight: 800;
-            letter-spacing: 4px;
-            margin: 0;
-            font-size: 1.2rem;
-            background: linear-gradient(to right, #fff, var(--primary-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+/* ===============================
+   CARD FORM
+================================ */
+.emo-card {
+    background: #0e0e0e;
+    border: 1px solid #2c2c2c;
+    box-shadow: 0 0 30px rgba(160, 0, 255, 0.15);
+    border-radius: 14px;
+}
 
-        /* -------- INPUTS ESTILO CYBER -------- */
-        label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            display: block;
-        }
+.emo-header {
+    background: linear-gradient(135deg, #4b006e, #1a001f);
+    text-align: center;
+    letter-spacing: 2px;
+}
 
-        .input-group-text {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid #333;
-            color: var(--primary-glow);
-            border-right: none;
-        }
+label {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: #bbb;
+}
 
-        .form-control {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #333;
-            color: #fff;
-            font-size: 0.9rem;
-            padding: 12px;
-            transition: all 0.3s ease;
-        }
+.form-control {
+    background: #121212;
+    border: 1px solid #333;
+    color: #fff;
+}
 
-        .form-control:focus {
-            background: rgba(160, 0, 255, 0.05);
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 15px rgba(160, 0, 255, 0.2);
-            color: #fff;
-        }
+.form-control:focus {
+    border-color: #a000ff;
+    box-shadow: 0 0 0 0.15rem rgba(160, 0, 255, 0.3);
+}
 
-        .btn-emo {
-            background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
-            border: none;
-            padding: 15px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.4s;
-        }
+.btn-emo {
+    background: linear-gradient(135deg, #a000ff, #4b006e);
+    border: none;
+    color: #fff;
+    letter-spacing: 1px;
+}
 
-        .btn-emo:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(160, 0, 255, 0.5);
-            filter: brightness(1.2);
-        }
-
-        /* -------- ALERTAS -------- */
-        .alert {
-            border-radius: 12px;
-            background: rgba(255, 0, 85, 0.1);
-            border: 1px solid var(--secondary-glow);
-            color: #ff99bb;
-            font-size: 0.85rem;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+.alert {
+    background: #1a001f;
+    border: 1px solid #4b006e;
+    color: #ff9bff;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container mt-4">
+<div class="container mt-5">
 
-    <nav class="emo-breadcrumb">
-        <ol>
-            <li><a href="<?= site_url('/') ?>"><i class="bi bi-house-door"></i> Inicio</a></li>
-            
-            <?php if ($uri === 'formulario'): ?>
-                <li class="sep">⛧</li>
-                <li class="active">TERMINAL_DATOS</li>
+<!-- ===============================
+     BREADCRUMB FUNCIONAL
+================================ -->
+<nav class="emo-breadcrumb">
+<ol>
 
-            <?php elseif ($uri === 'registro'): ?>
-                <li class="sep">⛧</li>
-                <li><a href="<?= site_url('formulario') ?>">Formulario</a></li>
-                <li class="sep">⛧</li>
-                <li class="active">NUEVO_REGISTRO</li>
+<li>
+    <a href="<?= site_url('/') ?>">Inicio</a>
+</li>
 
-            <?php elseif ($uri === 'carrusel'): ?>
-                <li class="sep">⛧</li>
-                <li class="active">Carrusel</li>
+<?php if ($uri === 'formulario'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Formulario</li>
 
-            <?php elseif ($uri === 'carrusel/nuevo'): ?>
-                <li class="sep">⛧</li>
-                <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
-                <li class="sep">⛧</li>
-                <li class="active">Nuevo</li>
-            <?php endif; ?>
-        </ol>
-    </nav>
+<?php elseif ($uri === 'registro'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('formulario') ?>">Formulario</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Registro</li>
 
-    <div class="card emo-card mx-auto" style="max-width:550px">
-        <div class="emo-header">
-            <h4><i class="bi bi-shield-lock-fill me-2"></i> VALIDACIÓN DE ACCESO</h4>
-        </div>
+<?php elseif ($uri === 'carrusel'): ?>
+    <li class="sep">⛧</li>
+    <li class="active">Carrusel</li>
 
-        <div class="card-body p-4 p-md-5">
+<?php elseif ($uri === 'carrusel/nuevo'): ?>
+    <li class="sep">⛧</li>
+    <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+    <li class="sep">⛧</li>
+    <li class="active">Nuevo</li>
+<?php endif; ?>
 
-            <?php if (session()->has('errors')): ?>
-                <div class="alert alert-dismissible fade show">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <strong>Error de integridad:</strong>
-                    <ul class="mt-2 mb-0">
-                        <?php foreach (session('errors') as $e): ?>
-                            <li><?= esc($e) ?></li>
-                        <?php endforeach ?>
-                    </ul>
-                </div>
-            <?php endif ?>
+</ol>
+</nav>
 
-            <?php if (session()->has('success')): ?>
-                <div class="alert alert-success bg-success bg-opacity-10 border-success text-success">
-                    <i class="bi bi-check-circle-fill me-2"></i> <?= session('success') ?>
-                </div>
-            <?php endif ?>
+<!-- ===============================
+     FORM CARD
+================================ -->
+<div class="card emo-card mx-auto" style="max-width:600px">
 
-            <form method="post" action="<?= site_url('formulario/procesar') ?>">
-                <?= csrf_field() ?>
+<div class="card-header emo-header">
+    <h4>FORMULARIO VALIDADO</h4>
+</div>
 
-                <div class="mb-4">
-                    <label>Identificación de Usuario</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                        <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" required>
-                    </div>
-                </div>
+<div class="card-body">
 
-                <div class="row">
-                    <div class="col-md-7 mb-4">
-                        <label>Enlace de Red (Email)</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
-                            <input type="email" name="email" class="form-control" placeholder="correo@sistema.com" required>
-                        </div>
-                    </div>
-                    <div class="col-md-5 mb-4">
-                        <label>Ciclos (Edad)</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                            <input type="number" name="edad" class="form-control" min="18" max="99" required>
-                        </div>
-                    </div>
-                </div>
+<?php if (session()->has('errors')): ?>
+<div class="alert">
+<ul class="mb-0">
+<?php foreach (session('errors') as $e): ?>
+<li><?= esc($e) ?></li>
+<?php endforeach ?>
+</ul>
+</div>
+<?php endif ?>
 
-                <div class="mb-4">
-                    <label>Créditos / Precio</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-currency-bitcoin"></i></span>
-                        <input type="text" name="precio" class="form-control" placeholder="0.00" required>
-                    </div>
-                </div>
+<?php if (session()->has('success')): ?>
+<div class="alert"><?= session('success') ?></div>
+<?php endif ?>
 
-                <div class="mb-4">
-                    <label>Fecha de Activación</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-                        <input type="date" name="fecha" class="form-control" required>
-                    </div>
-                </div>
+<form method="post" action="<?= site_url('formulario/procesar') ?>">
+<?= csrf_field() ?>
 
-                <div class="mb-5">
-                    <label>Código Encriptado (Contraseña)</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-key"></i></span>
-                        <input type="password" name="password" class="form-control" placeholder="••••••••" minlength="8" required>
-                    </div>
-                </div>
+<div class="mb-3">
+<label>NOMBRE</label>
+<input type="text" name="nombre" class="form-control" required>
+</div>
 
-                <button class="btn btn-emo w-100">
-                    <i class="bi bi-cpu-fill me-2"></i> PROCESAR INFORMACIÓN
-                </button>
-            </form>
+<div class="mb-3">
+<label>CORREO</label>
+<input type="email" name="email" class="form-control" required>
+</div>
 
-        </div>
-    </div>
+<div class="mb-3">
+<label>EDAD</label>
+<input type="number" name="edad" class="form-control" min="18" max="99" required>
+</div>
+
+<div class="mb-3">
+<label>PRECIO</label>
+<input type="text" name="precio" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label>FECHA NACIMIENTO</label>
+<input type="date" name="fecha" class="form-control" required>
+</div>
+
+<div class="mb-4">
+<label>CONTRASEÑA</label>
+<input type="password" name="password" class="form-control" minlength="8" required>
+</div>
+
+<button class="btn btn-emo w-100">VALIDAR DATOS</button>
+</form>
+
+</div>
+</div>
 </div>
 
 </body>
