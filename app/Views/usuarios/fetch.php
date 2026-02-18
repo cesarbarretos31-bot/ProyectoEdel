@@ -12,11 +12,37 @@
         th { background: #333; color: white; }
         #estadoBusqueda { margin-top: 10px; font-weight: bold; }
         .resaltado { background: yellow; }
+        .breadcrumbs {
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.breadcrumbs a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumbs span {
+    margin: 0 6px;
+    color: #999;
+}
+
+.breadcrumbs .activo {
+    font-weight: bold;
+    color: #333;
+}
+
     </style>
 </head>
 <body>
 
-<h2>CRUD Usuarios (Fetch + DOM)</h2>
+<h2>CRUD</h2>
+<nav class="breadcrumbs" id="breadcrumbs"></nav>
+
 
 <!-- 🔍 BUSCADOR -->
 <input type="text" id="buscar" placeholder="Buscar usuario...">
@@ -198,6 +224,58 @@ buscarInput.addEventListener('keyup', function() {
 
 // 🔥 6️⃣ CARGA INICIAL
 cargarUsuarios();
+function generarBreadcrumbs() {
+
+    const nav = document.getElementById('breadcrumbs');
+
+    // Obtener ruta actual
+    const rutaCompleta = window.location.pathname;
+
+    // Separar por /
+    const partes = rutaCompleta.split('/').filter(parte => parte !== '');
+
+    let html = `<a href="${BASE}">Inicio</a>`;
+    let acumulado = '';
+
+    partes.forEach((parte, index) => {
+
+        acumulado += '/' + parte;
+
+        // Último elemento = activo
+        if (index === partes.length - 1) {
+
+            html += `
+                <span>›</span>
+                <span class="activo">
+                    ${capitalizar(parte)}
+                </span>
+            `;
+
+        } else {
+
+            html += `
+                <span>›</span>
+                <a href="${BASE}${acumulado}">
+                    ${capitalizar(parte)}
+                </a>
+            `;
+        }
+
+    });
+
+    nav.innerHTML = html;
+}
+
+
+// Función para capitalizar
+function capitalizar(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+
+// Ejecutar al cargar
+generarBreadcrumbs();
+
 </script>
 
 </body>
