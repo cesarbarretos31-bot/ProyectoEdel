@@ -71,10 +71,46 @@ th,td{
         font-weight:bold;
     }
 }
+.breadcrumbs{
+    margin-bottom:20px;
+    font-size:14px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+}
+
+.breadcrumbs a{
+    text-decoration:none;
+    color:#6a00af;
+    transition:0.3s;
+}
+
+.breadcrumbs a:hover{
+    color:#fff;
+}
+
+.breadcrumbs span{
+    color:#888;
+}
+
+.breadcrumbs .activo{
+    color:#fff;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
+    <nav class="breadcrumbs">
+    <a href="<?= base_url() ?>">Inicio</a>
+    <span>›</span>
+    <a href="<?= base_url('usuarios') ?>">Usuarios</a>
+    <span>›</span>
+    <span class="activo">CRUD</span>
+</nav>
+
 
 <h2>CRUD Usuarios</h2>
 
