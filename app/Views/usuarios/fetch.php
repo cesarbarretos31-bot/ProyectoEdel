@@ -8,13 +8,14 @@
 
 <style>
 /* ===============================
-   ESTILO CYBER 2000s (Y2K) - SIN CAMBIAR ESTRUCTURA
+   ESTILO CYBER 2000s (Y2K) 
 ================================ */
 body{
     background: radial-gradient(circle at center, #001d3d 0%, #000814 100%);
     color: #e0e0e0;
     font-family: 'Montserrat', sans-serif;
     padding: 20px;
+    min-height: 100vh;
 }
 
 h2{ 
@@ -52,9 +53,8 @@ button{
 }
 
 button:hover{
-    background: #39ff14; /* Verde neón al pasar el mouse */
+    background: #39ff14; 
     box-shadow: 0 0 15px #39ff14;
-    opacity: 1;
 }
 
 table{
@@ -95,11 +95,6 @@ th{
     color: #000;
 }
 
-#paginacion button:disabled{
-    opacity: 0.3;
-    border-color: #444;
-}
-
 /* Breadcrumbs Morensistem Style */
 .breadcrumbs{
     margin-bottom: 20px;
@@ -123,7 +118,6 @@ th{
 .breadcrumbs .activo{
     color: #fff;
     font-weight: bold;
-    text-shadow: 0 0 5px #fff;
 }
 
 /* MODAL Y2K */
@@ -146,7 +140,6 @@ th{
     width: 100%;
     max-width: 400px;
     position: relative;
-    animation: fadeIn 0.25s ease;
     box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
 }
 
@@ -159,34 +152,13 @@ th{
     color: #39ff14;
 }
 
-@keyframes fadeIn{
-    from{transform:scale(0.9);opacity:0;}
-    to{transform:scale(1);opacity:1;}
-}
-
 /* RESPONSIVE */
 @media(max-width:768px){
-    table, thead, tbody, th, td, tr{
-        display: block;
-    }
+    table, thead, tbody, th, td, tr{ display: block; }
     thead{ display: none; }
-    tr{
-        margin-bottom: 15px;
-        background: rgba(0, 29, 61, 0.8);
-        padding: 10px;
-        border: 1px solid #00f2ff;
-    }
-    td{
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(0, 242, 255, 0.1);
-    }
-    td::before{
-        content: attr(data-label);
-        font-weight: bold;
-        color: #00f2ff;
-        font-family: 'Share Tech Mono';
-    }
+    tr{ margin-bottom: 15px; background: rgba(0, 29, 61, 0.8); padding: 10px; border: 1px solid #00f2ff; }
+    td{ display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0, 242, 255, 0.1); }
+    td::before{ content: attr(data-label); font-weight: bold; color: #00f2ff; }
 }
 </style>
 </head>
@@ -226,16 +198,15 @@ th{
 
         <form id="formUsuario">
             <input type="hidden" id="id" name="id">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre" style="width:94%" required>
-            <input type="email" id="correo" name="correo" placeholder="Correo" style="width:94%" required>
-            <input type="password" id="password" name="password" placeholder="Contraseña" style="width:94%">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" style="width:100%; box-sizing:border-box;" required>
+            <input type="email" id="correo" name="correo" placeholder="Correo" style="width:100%; box-sizing:border-box;" required>
+            <input type="password" id="password" name="password" placeholder="Contraseña (opcional)" style="width:100%; box-sizing:border-box;">
             <button type="submit" style="width:100%; margin-top:15px">Guardar Cambios</button>
         </form>
     </div>
 </div>
 
 <script>
-/* FUNCIONALIDAD INTACTA - NO SE MOVIÓ NADA */
 const BASE = "<?= base_url() ?>";
 const tabla = document.getElementById("tablaUsuarios");
 const form = document.getElementById("formUsuario");
@@ -247,6 +218,7 @@ let usuariosGlobal = [];
 let paginaActual = 1;
 const registrosPorPagina = 5;
 
+/* ================= CARGAR ================= */
 function cargarUsuarios(){
     fetch(`${BASE}/api/usuarios`)
     .then(res=>res.json())
@@ -257,6 +229,7 @@ function cargarUsuarios(){
     });
 }
 
+/* ================= MOSTRAR PAGINA ================= */
 function mostrarPagina(){
     tabla.innerHTML = "";
     const inicio = (paginaActual-1)*registrosPorPagina;
@@ -278,6 +251,7 @@ function mostrarPagina(){
     generarPaginacion();
 }
 
+/* ================= PAGINACION ================= */
 function generarPaginacion(){
     paginacion.innerHTML="";
     const total = Math.ceil(usuariosGlobal.length/registrosPorPagina);
@@ -287,11 +261,7 @@ function generarPaginacion(){
     paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual-1})" ${paginaActual===1?'disabled':''}>&laquo;</button>`;
 
     for(let i=1;i<=total;i++){
-        paginacion.innerHTML += `
-        <button onclick="cambiarPagina(${i})"
-        class="${i===paginaActual?'activa':''}">
-        ${i}
-        </button>`;
+        paginacion.innerHTML += `<button onclick="cambiarPagina(${i})" class="${i===paginaActual?'activa':''}">${i}</button>`;
     }
 
     paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual+1})" ${paginaActual===total?'disabled':''}>&raquo;</button>`;
@@ -305,6 +275,7 @@ function cambiarPagina(num){
     mostrarPagina();
 }
 
+/* ================= MODAL ================= */
 function abrirModal(){
     document.getElementById("tituloModal").innerText="Nuevo Usuario";
     form.reset();
@@ -316,19 +287,19 @@ function cerrarModal(){
     modal.style.display="none";
 }
 
+/* ================= GUARDAR / ACTUALIZAR ================= */
 form.addEventListener("submit",function(e){
     e.preventDefault();
     const id = document.getElementById("id").value;
     const formData = new FormData(form);
+
     let url = `${BASE}/api/usuarios`;
     if(id){
         url = `${BASE}/api/usuarios/${id}`;
         formData.append('_method','PUT');
     }
-    fetch(url,{
-        method:"POST",
-        body:formData
-    })
+
+    fetch(url,{ method:"POST", body:formData })
     .then(res=>res.json())
     .then(()=>{
         cerrarModal();
@@ -336,33 +307,36 @@ form.addEventListener("submit",function(e){
     });
 });
 
+/* ================= EDITAR (FIXED) ================= */
 function editar(id){
     fetch(`${BASE}/api/usuarios/${id}`)
-    .then(res=>res.json())
-    .then(data=>{
-        document.getElementById("tituloModal").innerText="Editar Usuario";
-        document.getElementById("id").value=data.id;
-        document.getElementById("nombre").value=data.nombre;
-        document.getElementById("correo").value=data.correo;
-        modal.style.display="flex";
-    });
+    .then(res => res.json())
+    .then(data => {
+        // Llenamos los campos con los datos que vienen del servidor
+        document.getElementById("id").value = data.id;
+        document.getElementById("nombre").value = data.nombre;
+        document.getElementById("correo").value = data.correo;
+        document.getElementById("password").value = ""; // Password vacío por seguridad
+
+        // Cambiamos el título y mostramos el modal
+        document.getElementById("tituloModal").innerText = "Editar Usuario";
+        modal.style.display = "flex";
+    })
+    .catch(err => console.error("Error al cargar datos:", err));
 }
 
+/* ================= ELIMINAR ================= */
 function eliminar(id){
     if(!confirm("¿Eliminar usuario?")) return;
-    fetch(`${BASE}/api/usuarios/${id}`,{
-        method:"DELETE"
-    })
+    fetch(`${BASE}/api/usuarios/${id}`,{ method:"DELETE" })
     .then(res=>res.json())
     .then(()=>cargarUsuarios());
 }
 
+/* ================= BUSCAR ================= */
 buscar.addEventListener("keyup",function(){
     const texto=this.value.trim();
-    if(texto===""){
-        cargarUsuarios();
-        return;
-    }
+    if(texto===""){ cargarUsuarios(); return; }
     fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
     .then(res=>res.json())
     .then(data=>{
