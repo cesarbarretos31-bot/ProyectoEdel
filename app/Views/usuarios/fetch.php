@@ -2,138 +2,167 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>CRUD Usuarios</title>
+<title>CRUD Usuarios | MORENSISTEM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-    background:#111;
-    color:#fff;
-    font-family:Arial;
-    padding:20px;
+/* ===============================
+   ESTILO CYBER 2000s (Y2K)
+================================ */
+:root {
+    --primary: #00f2ff;
+    --secondary: #39ff14;
+    --bg-dark: #000814;
+    --card-bg: rgba(0, 29, 61, 0.6);
 }
 
-h2{ margin-top:0; }
-
-input,button{
-    padding:8px;
-    margin:5px 0;
+body {
+    background: radial-gradient(circle at center, #001d3d 0%, #000814 100%);
+    color: #e0e0e0;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px;
+    min-height: 100vh;
 }
 
-button{
-    cursor:pointer;
-    background:#6a00af;
-    color:white;
-    border:none;
-    border-radius:4px;
+h2 { 
+    font-family: 'Share Tech Mono', monospace;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px var(--primary);
+    margin-bottom: 25px;
 }
 
-button:hover{
-    opacity:0.85;
+/* Breadcrumbs al estilo Morensistem 2000s */
+.breadcrumbs {
+    margin-bottom: 30px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    width: fit-content;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
+.breadcrumbs a {
+    text-decoration: none;
+    color: var(--primary);
+    text-transform: uppercase;
 }
 
-th,td{
-    padding:10px;
-    border-bottom:1px solid #333;
+.breadcrumbs span { color: var(--secondary); text-shadow: 0 0 5px var(--secondary); }
+.breadcrumbs .activo { color: #fff; font-weight: bold; }
+
+/* Inputs y Botones Estilo Terminal */
+input[type="text"], input[type="email"], input[type="password"] {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    outline: none;
+    border-radius: 4px;
+    transition: 0.3s;
 }
 
-#paginacion{
-    margin-top:20px;
-    text-align:center;
+input:focus {
+    box-shadow: 0 0 10px var(--primary);
 }
 
-#paginacion button{
-    margin:3px;
-    padding:5px 10px;
+button {
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary), #0077b6);
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.3s;
 }
 
-#paginacion button.activa{
-    background:#00b4d8;
+button:hover {
+    background: var(--secondary);
+    box-shadow: 0 0 15px var(--secondary);
+    transform: scale(1.05);
 }
 
-#paginacion button:disabled{
-    opacity:0.4;
+/* Tabla Estilo Matrix / Cyber */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-top: 20px;
 }
 
-/* Breadcrumbs */
-.breadcrumbs{
-    margin-bottom:20px;
-    font-size:14px;
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:8px;
+th {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--secondary);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 12px;
+    border-bottom: 2px solid var(--secondary);
 }
 
-.breadcrumbs a{
-    text-decoration:none;
-    color:#6a00af;
+td {
+    background: var(--card-bg);
+    padding: 15px;
+    border-top: 1px solid rgba(0, 242, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
 }
 
-.breadcrumbs .activo{
-    color:#fff;
-    font-weight:bold;
+td:first-child { border-left: 1px solid rgba(0, 242, 255, 0.1); border-radius: 8px 0 0 8px; }
+td:last-child { border-right: 1px solid rgba(0, 242, 255, 0.1); border-radius: 0 8px 8px 0; }
+
+/* Paginación */
+#paginacion {
+    margin-top: 30px;
 }
 
-/* MODAL */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.7);
-    justify-content:center;
-    align-items:center;
-    z-index:1000;
+#paginacion button {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    margin: 0 4px;
 }
 
-.modal-contenido{
-    background:#1a1a1a;
-    padding:25px;
-    border-radius:10px;
-    width:100%;
-    max-width:400px;
-    position:relative;
-    animation:fadeIn 0.25s ease;
+#paginacion button.activa {
+    background: var(--primary);
+    color: #000;
 }
 
-.cerrar{
-    position:absolute;
-    right:15px;
-    top:10px;
-    font-size:22px;
-    cursor:pointer;
+/* MODAL RETRO-FUTURISTA */
+.modal {
+    background: rgba(0, 8, 20, 0.9);
+    backdrop-filter: blur(8px);
 }
 
-@keyframes fadeIn{
-    from{transform:scale(0.9);opacity:0;}
-    to{transform:scale(1);opacity:1;}
+.modal-contenido {
+    background: #001d3d;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+    color: #fff;
+    padding: 30px;
 }
 
-/* RESPONSIVE */
+.cerrar { color: var(--secondary); }
+
+@keyframes fadeIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Adaptación móvil con estilo */
 @media(max-width:768px){
-    table, thead, tbody, th, td, tr{
-        display:block;
-    }
-    thead{ display:none; }
-    tr{
-        margin-bottom:15px;
-        background:#1a1a1a;
-        padding:10px;
-    }
-    td{
-        display:flex;
-        justify-content:space-between;
-    }
-    td::before{
-        content:attr(data-label);
-        font-weight:bold;
-    }
+    tr { border: 1px solid var(--primary); margin-bottom: 10px; display: block; border-radius: 10px; }
+    td { display: flex; justify-content: space-between; border: none; }
+    td::before { content: attr(data-label); color: var(--primary); font-family: 'Share Tech Mono'; }
 }
 </style>
 </head>
@@ -141,24 +170,26 @@ th,td{
 <body>
 
 <nav class="breadcrumbs">
-    <a href="<?= base_url() ?>">Inicio</a>
-    <span>›</span>
-    <a href="<?= base_url('usuarios') ?>">Usuarios</a>
-    <span>›</span>
-    <span class="activo">CRUD</span>
+    <a href="<?= base_url() ?>">System</a>
+    <span>⛧</span>
+    <a href="<?= base_url('usuarios') ?>">Users</a>
+    <span>⛧</span>
+    <span class="activo">Terminal_CRUD</span>
 </nav>
 
-<h2>CRUD Usuarios</h2>
+<h2>> Administrador_Usuarios_v2.0</h2>
 
-<input type="text" id="buscar" placeholder="Buscar usuario...">
-<button onclick="abrirModal()">+ Nuevo Usuario</button>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <input type="text" id="buscar" placeholder="Escaneando base de datos...">
+    <button onclick="abrirModal()">[+] Registrar_Sujeto</button>
+</div>
 
 <table>
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Acciones</th>
+            <th>Identificador_Nombre</th>
+            <th>Protocolo_Correo</th>
+            <th>Acciones_Root</th>
         </tr>
     </thead>
     <tbody id="tablaUsuarios"></tbody>
@@ -166,24 +197,25 @@ th,td{
 
 <div id="paginacion"></div>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
     <div class="modal-contenido">
         <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <h3 id="tituloModal">Nuevo Usuario</h3>
+        <h3 id="tituloModal" style="font-family: 'Share Tech Mono'; color: var(--primary);">NUEVO_REGISTRO</h3>
 
         <form id="formUsuario">
             <input type="hidden" id="id" name="id">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-            <input type="email" id="correo" name="correo" placeholder="Correo" required>
-            <input type="password" id="password" name="password" placeholder="Contraseña">
-            <button type="submit">Guardar</button>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+                <input type="email" id="correo" name="correo" placeholder="Email corporativo" required>
+                <input type="password" id="password" name="password" placeholder="Key_Password">
+                <button type="submit">Ejecutar_Guardado</button>
+            </div>
         </form>
     </div>
 </div>
 
 <script>
-
+/* Lógica estrictamente original sin cambios de funcionalidad */
 const BASE = "<?= base_url() ?>";
 const tabla = document.getElementById("tablaUsuarios");
 const form = document.getElementById("formUsuario");
@@ -195,7 +227,6 @@ let usuariosGlobal = [];
 let paginaActual = 1;
 const registrosPorPagina = 5;
 
-/* ================= CARGAR ================= */
 function cargarUsuarios(){
     fetch(`${BASE}/api/usuarios`)
     .then(res=>res.json())
@@ -206,10 +237,8 @@ function cargarUsuarios(){
     });
 }
 
-/* ================= MOSTRAR PAGINA ================= */
 function mostrarPagina(){
     tabla.innerHTML = "";
-
     const inicio = (paginaActual-1)*registrosPorPagina;
     const fin = inicio + registrosPorPagina;
     const datos = usuariosGlobal.slice(inicio,fin);
@@ -220,33 +249,24 @@ function mostrarPagina(){
             <td data-label="Nombre">${u.nombre}</td>
             <td data-label="Correo">${u.correo}</td>
             <td data-label="Acciones">
-                <button onclick="editar(${u.id})">Editar</button>
-                <button onclick="eliminar(${u.id})">Eliminar</button>
+                <button onclick="editar(${u.id})">Edit</button>
+                <button onclick="eliminar(${u.id})" style="background:transparent; border:1px solid #ff0055; color:#ff0055;">Kill</button>
             </td>
         </tr>
         `;
     });
-
     generarPaginacion();
 }
 
-/* ================= PAGINACION ================= */
 function generarPaginacion(){
     paginacion.innerHTML="";
     const total = Math.ceil(usuariosGlobal.length/registrosPorPagina);
     if(total<=1) return;
-
     paginacion.innerHTML += `<button onclick="cambiarPagina(1)" ${paginaActual===1?'disabled':''}>&laquo;&laquo;</button>`;
     paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual-1})" ${paginaActual===1?'disabled':''}>&laquo;</button>`;
-
     for(let i=1;i<=total;i++){
-        paginacion.innerHTML += `
-        <button onclick="cambiarPagina(${i})"
-        class="${i===paginaActual?'activa':''}">
-        ${i}
-        </button>`;
+        paginacion.innerHTML += `<button onclick="cambiarPagina(${i})" class="${i===paginaActual?'activa':''}">${i}</button>`;
     }
-
     paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual+1})" ${paginaActual===total?'disabled':''}>&raquo;</button>`;
     paginacion.innerHTML += `<button onclick="cambiarPagina(${total})" ${paginaActual===total?'disabled':''}>&raquo;&raquo;</button>`;
 }
@@ -258,36 +278,25 @@ function cambiarPagina(num){
     mostrarPagina();
 }
 
-/* ================= MODAL ================= */
 function abrirModal(){
-    document.getElementById("tituloModal").innerText="Nuevo Usuario";
+    document.getElementById("tituloModal").innerText="NUEVO_REGISTRO";
     form.reset();
     document.getElementById("id").value="";
     modal.style.display="flex";
 }
 
-function cerrarModal(){
-    modal.style.display="none";
-}
+function cerrarModal(){ modal.style.display="none"; }
 
-/* ================= GUARDAR / ACTUALIZAR ================= */
 form.addEventListener("submit",function(e){
     e.preventDefault();
-
     const id = document.getElementById("id").value;
     const formData = new FormData(form);
-
     let url = `${BASE}/api/usuarios`;
-
     if(id){
         url = `${BASE}/api/usuarios/${id}`;
         formData.append('_method','PUT');
     }
-
-    fetch(url,{
-        method:"POST",
-        body:formData
-    })
+    fetch(url,{ method:"POST", body:formData })
     .then(res=>res.json())
     .then(()=>{
         cerrarModal();
@@ -295,12 +304,11 @@ form.addEventListener("submit",function(e){
     });
 });
 
-/* ================= EDITAR ================= */
 function editar(id){
     fetch(`${BASE}/api/usuarios/${id}`)
     .then(res=>res.json())
     .then(data=>{
-        document.getElementById("tituloModal").innerText="Editar Usuario";
+        document.getElementById("tituloModal").innerText="MODIFICAR_SUJETO";
         document.getElementById("id").value=data.id;
         document.getElementById("nombre").value=data.nombre;
         document.getElementById("correo").value=data.correo;
@@ -308,26 +316,16 @@ function editar(id){
     });
 }
 
-/* ================= ELIMINAR ================= */
 function eliminar(id){
-    if(!confirm("¿Eliminar usuario?")) return;
-
-    fetch(`${BASE}/api/usuarios/${id}`,{
-        method:"DELETE"
-    })
+    if(!confirm("¿CONFIRMAR ELIMINACIÓN DE REGISTRO?")) return;
+    fetch(`${BASE}/api/usuarios/${id}`,{ method:"DELETE" })
     .then(res=>res.json())
     .then(()=>cargarUsuarios());
 }
 
-/* ================= BUSCAR ================= */
 buscar.addEventListener("keyup",function(){
     const texto=this.value.trim();
-
-    if(texto===""){
-        cargarUsuarios();
-        return;
-    }
-
+    if(texto===""){ cargarUsuarios(); return; }
     fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
     .then(res=>res.json())
     .then(data=>{
@@ -338,7 +336,6 @@ buscar.addEventListener("keyup",function(){
 });
 
 cargarUsuarios();
-
 </script>
 
 </body>
