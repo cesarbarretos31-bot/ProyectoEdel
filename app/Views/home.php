@@ -1,339 +1,262 @@
+<?php
+$uri = service('uri')->getPath();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>CRUD Usuarios | MORENSISTEM</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal de Validación | MORENSISTEM</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
-<style>
-    /* VARIABLES DE LA SEGUNDA VISTA */
-    :root {
-        --primary-glow: #a000ff;
-        --secondary-glow: #ff0055;
-        --bg-color: #050505;
-        --card-bg: rgba(20, 20, 20, 0.7);
-    }
-
+    <style>
+    /* ===============================
+       BASE DARK EMO
+    ================================ */
     body {
-        min-height: 100vh;
-        background-color: var(--bg-color);
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(160, 0, 255, 0.1) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.1) 0%, transparent 40%);
+        background: radial-gradient(circle at top, #1b1b1b, #000);
         font-family: 'Montserrat', sans-serif;
-        color: #ffffff;
-        margin: 0;
-        padding: 20px;
+        color: #e0e0e0;
+        min-height: 100vh;
+        padding-bottom: 50px;
+    }
+
+    /* ===============================
+       BREADCRUMB EMO (COMO LAS TIENES)
+    ================================ */
+    .emo-breadcrumb {
+        margin-bottom: 35px;
+        animation: emoIn .6s ease;
+    }
+
+    .emo-breadcrumb ol {
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        background: linear-gradient(145deg, #0b0b0b, #141414);
+        padding: 14px 22px;
+        border-radius: 14px;
+        box-shadow: 0 0 25px rgba(160,0,255,.35);
+        font-family: 'Courier New', monospace;
+        list-style: none;
     }
 
-    .bg-glow {
-        position: fixed;
-        width: 300px;
-        height: 300px;
-        background: var(--primary-glow);
-        filter: blur(120px);
-        border-radius: 50%;
-        z-index: -1;
-        opacity: 0.2;
-        animation: move 15s infinite alternate;
+    .emo-breadcrumb a {
+        color: #c77dff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 13px;
+        position: relative;
     }
 
-    @keyframes move {
-        from { transform: translate(-50%, -50%); }
-        to { transform: translate(50%, 50%); }
+    .emo-breadcrumb a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #c77dff;
+        transition: .3s;
     }
 
-    /* CONTENEDOR MAMALÓN */
-    .main-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-        border-radius: 24px;
-        padding: 40px;
+    .emo-breadcrumb a:hover::after {
         width: 100%;
-        max-width: 900px;
-        animation: fadeIn 0.8s ease-out;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
+    .emo-breadcrumb .active {
+        color: #fff;
+        letter-spacing: 1px;
+        text-shadow: 0 0 6px rgba(255,255,255,.4);
+    }
+
+    .emo-breadcrumb .sep {
+        color: #444; /* Tu color de separador original */
+        font-weight: bold;
+    }
+
+    @keyframes emoIn {
+        from { opacity: 0; transform: translateY(-8px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    h2 {
-        font-weight: 800;
-        font-size: 2.2rem;
-        letter-spacing: 4px;
-        background: linear-gradient(135deg, #fff 30%, var(--primary-glow) 70%, var(--secondary-glow));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-transform: uppercase;
-        margin-bottom: 30px;
+    /* ===============================
+       CARD STYLE (COMO LAS TIENES)
+    ================================ */
+    .emo-card {
+        background: #0e0e0e;
+        border: 1px solid #2c2c2c;
+        box-shadow: 0 0 30px rgba(160, 0, 255, 0.15);
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .emo-header {
+        background: linear-gradient(135deg, #4b006e, #1a001f);
+        border-bottom: 1px solid #32003f;
         text-align: center;
-    }
-
-    /* INPUTS ESTILO MORENSISTEM */
-    input {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
-        border-radius: 10px !important;
-        padding: 12px !important;
-        margin-bottom: 10px !important;
-        width: 100%;
-        transition: 0.3s;
-    }
-
-    input:focus {
-        outline: none;
-        border-color: var(--primary-glow) !important;
-        box-shadow: 0 0 10px rgba(160, 0, 255, 0.3);
-    }
-
-    /* BOTONES */
-    button {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        color: white;
-        border-radius: 12px;
-        padding: 10px 20px;
-        font-weight: 600;
-        transition: all 0.4s;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background: rgba(160, 0, 255, 0.2);
-        border-color: var(--primary-glow);
-        transform: translateY(-2px);
-    }
-
-    button[type="submit"] {
-        background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
-        border: none;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    /* TABLA */
-    table {
-        width: 100%;
-        margin-top: 30px;
-        border-collapse: separate;
-        border-spacing: 0 8px;
-    }
-
-    th {
-        color: #888;
-        text-transform: uppercase;
-        font-size: 0.8rem;
         letter-spacing: 2px;
-        padding: 10px;
-    }
-
-    td {
-        background: rgba(255, 255, 255, 0.03);
         padding: 15px;
     }
 
-    tr td:first-child { border-radius: 12px 0 0 12px; }
-    tr td:last-child { border-radius: 0 12px 12px 0; }
-
-    /* PAGINACIÓN */
-    #paginacion button.activa {
-        background: var(--primary-glow);
-        box-shadow: 0 0 15px rgba(160, 0, 255, 0.4);
+    label {
+        color: #bfbfbf;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        display: block;
     }
 
-    /* BREADCRUMBS */
-    .breadcrumbs a { color: var(--primary-glow); text-decoration: none; font-weight: 600; }
-    .breadcrumbs span { color: #555; margin: 0 5px; }
-    .breadcrumbs .activo { color: #fff; }
-
-    @media(max-width:768px){
-        table, thead, tbody, th, td, tr{ display:block; }
-        thead{ display:none; }
-        tr{ margin-bottom:15px; background: rgba(255,255,255,0.03); padding:10px; border-radius: 12px; }
-        td{ display:flex; justify-content:space-between; border: none; }
-        td::before{ content:attr(data-label); font-weight:bold; color: var(--primary-glow); }
+    .form-control {
+        background: #121212;
+        border: 1px solid #333;
+        color: #fff;
+        border-radius: 8px;
     }
-</style>
+
+    .form-control:focus {
+        background: #151515;
+        border-color: #a000ff;
+        box-shadow: 0 0 0 0.15rem rgba(160, 0, 255, 0.25);
+        color: #fff;
+    }
+
+    .btn-emo {
+        background: linear-gradient(135deg, #a000ff, #4b006e);
+        border: none;
+        color: #fff;
+        letter-spacing: 1px;
+        transition: .3s;
+        padding: 12px;
+        font-weight: 600;
+    }
+
+    .btn-emo:hover {
+        background: linear-gradient(135deg, #ff0055, #70002f);
+        transform: translateY(-1px);
+        color: #fff;
+    }
+
+    .btn-cancel {
+        background: transparent;
+        border: 1px solid #555;
+        color: #aaa;
+        padding: 10px;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 6px;
+        transition: .3s;
+    }
+
+    .btn-cancel:hover {
+        background: #222;
+        color: #fff;
+    }
+
+    .alert {
+        background: #1a001f;
+        border: 1px solid #4b006e;
+        color: #ff9bff;
+        border-radius: 10px;
+    }
+    </style>
 </head>
 
 <body>
-    <div class="bg-glow"></div>
 
-    <div class="main-card">
-        <nav class="breadcrumbs">
-            <a href="<?= base_url() ?>">Inicio</a>
-            <span>›</span>
-            <a href="<?= base_url('usuarios') ?>">Usuarios</a>
-            <span>›</span>
-            <span class="activo">CRUD</span>
-        </nav>
+<div class="container mt-5">
 
-        <h2>CRUD Usuarios</h2>
+    <nav class="emo-breadcrumb">
+        <ol>
+            <li>
+                <a href="<?= site_url('/') ?>">Inicio</a>
+            </li>
 
-        <input type="text" id="buscar" placeholder=" Buscar usuario...">
+            <?php if ($uri === 'carrusel/nuevo'): ?>
+                <li class="sep">⛧</li>
+                <li><a href="<?= site_url('carrusel') ?>">Carrusel</a></li>
+                <li class="sep">⛧</li>
+                <li class="active">Nuevo</li>
 
-        <form id="formUsuario">
-            <input type="hidden" id="id" name="id">
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-                </div>
-                <div class="col-md-4">
-                    <input type="email" id="correo" name="correo" placeholder="Correo" required>
-                </div>
-                <div class="col-md-4">
-                    <input type="password" id="password" name="password" placeholder="Contraseña">
-                </div>
-            </div>
-            <button type="submit">GUARDAR REGISTRO</button>
-        </form>
+            <?php elseif ($uri === 'carrusel'): ?>
+                <li class="sep">⛧</li>
+                <li class="active">Carrusel</li>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaUsuarios"></tbody>
-            </table>
+            <?php elseif ($uri === 'formulario'): ?>
+                <li class="sep">⛧</li>
+                <li class="active">Formulario</li>
+
+            <?php elseif ($uri === 'registro'): ?>
+                <li class="sep">⛧</li>
+                <li class="active">Registro</li>
+            <?php endif; ?>
+        </ol>
+    </nav>
+
+    <div class="card emo-card mx-auto" style="max-width:520px;">
+        <div class="emo-header text-white">
+            <h4>TERMINAL DE DATOS</h4>
         </div>
 
-        <div id="paginacion"></div>
+        <div class="card-body p-4">
+
+            <?php if (session()->has('errors')): ?>
+                <div class="alert">
+                    <ul class="mb-0">
+                        <?php foreach (session('errors') as $error): ?>
+                            <li><?= esc($error) ?></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            <?php endif ?>
+
+            <form action="<?= site_url('formulario/procesar') ?>" method="post">
+                <?= csrf_field() ?>
+
+                <div class="mb-3">
+                    <label>NOMBRE COMPLETO</label>
+                    <input type="text" name="nombre" class="form-control" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7 mb-3">
+                        <label>CORREO ELECTRÓNICO</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label>EDAD</label>
+                        <input type="number" name="edad" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>PRECIO / CRÉDITOS</label>
+                    <input type="text" name="precio" class="form-control" placeholder="0.00" required>
+                </div>
+
+                <div class="mb-4">
+                    <label>CÓDIGO DE ACCESO</label>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-emo">
+                        VALIDAR INFORMACIÓN
+                    </button>
+
+                    <a href="<?= site_url('/') ?>" class="btn btn-cancel">
+                        CANCELAR
+                    </a>
+                </div>
+            </form>
+
+        </div>
     </div>
+</div>
 
-<script>
-/* TU LÓGICA ORIGINAL - NO TOCADA 
-   He verificado que todos los IDs (buscar, formUsuario, id, nombre, correo, password, tablaUsuarios, paginacion) 
-   coincidan exactamente con tu script original.
-*/
-const BASE = "<?= base_url() ?>";
-const tabla = document.getElementById("tablaUsuarios");
-const form = document.getElementById("formUsuario");
-const buscar = document.getElementById("buscar");
-const paginacion = document.getElementById("paginacion");
-
-let usuariosGlobal = [];
-let paginaActual = 1;
-const registrosPorPagina = 5;
-
-function cargarUsuarios(){
-    fetch(`${BASE}/api/usuarios`)
-    .then(res=>res.json())
-    .then(data=>{
-        usuariosGlobal = data;
-        paginaActual = 1;
-        mostrarPagina();
-    });
-}
-
-function mostrarPagina(){
-    tabla.innerHTML = "";
-    const inicio = (paginaActual-1)*registrosPorPagina;
-    const fin = inicio + registrosPorPagina;
-    const datos = usuariosGlobal.slice(inicio,fin);
-
-    datos.forEach(u=>{
-        tabla.innerHTML += `
-        <tr>
-            <td data-label="Nombre">${u.nombre}</td>
-            <td data-label="Correo">${u.correo}</td>
-            <td data-label="Acciones">
-                <button onclick="editar(${u.id})">Editar</button>
-                <button onclick="eliminar(${u.id})">Eliminar</button>
-            </td>
-        </tr>
-        `;
-    });
-    generarPaginacion();
-}
-
-function generarPaginacion(){
-    paginacion.innerHTML="";
-    const total = Math.ceil(usuariosGlobal.length/registrosPorPagina);
-    if(total<=1) return;
-
-    paginacion.innerHTML += `<button onclick="cambiarPagina(1)" ${paginaActual===1?'disabled':''}>&laquo;&laquo;</button>`;
-    paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual-1})" ${paginaActual===1?'disabled':''}>&laquo;</button>`;
-
-    for(let i=1;i<=total;i++){
-        paginacion.innerHTML += `<button onclick="cambiarPagina(${i})" class="${i===paginaActual?'activa':''}">${i}</button>`;
-    }
-
-    paginacion.innerHTML += `<button onclick="cambiarPagina(${paginaActual+1})" ${paginaActual===total?'disabled':''}>&raquo;</button>`;
-    paginacion.innerHTML += `<button onclick="cambiarPagina(${total})" ${paginaActual===total?'disabled':''}>&raquo;&raquo;</button>`;
-}
-
-function cambiarPagina(num){
-    const total = Math.ceil(usuariosGlobal.length/registrosPorPagina);
-    if(num<1 || num>total) return;
-    paginaActual = num;
-    mostrarPagina();
-}
-
-form.addEventListener("submit",function(e){
-    e.preventDefault();
-    const id = document.getElementById("id").value;
-    const formData = new FormData(form);
-    let url = `${BASE}/api/usuarios`;
-    if(id){
-        url = `${BASE}/api/usuarios/${id}`;
-        formData.append('_method','PUT');
-    }
-    fetch(url,{ method:"POST", body:formData })
-    .then(res=>res.json())
-    .then(()=>{
-        form.reset();
-        document.getElementById("id").value = ""; // Limpiar id manual por seguridad
-        cargarUsuarios();
-    });
-});
-
-function editar(id){
-    fetch(`${BASE}/api/usuarios/${id}`)
-    .then(res=>res.json())
-    .then(data=>{
-        document.getElementById("id").value = data.id;
-        document.getElementById("nombre").value = data.nombre;
-        document.getElementById("correo").value = data.correo;
-    });
-}
-
-function eliminar(id){
-    if(!confirm("¿Eliminar usuario?")) return;
-    fetch(`${BASE}/api/usuarios/${id}`,{ method:"DELETE" })
-    .then(res=>res.json())
-    .then(()=>cargarUsuarios());
-}
-
-buscar.addEventListener("keyup",function(){
-    const texto = this.value.trim();
-    if(texto===""){ cargarUsuarios(); return; }
-    fetch(`${BASE}/api/usuarios/buscar?q=${texto}`)
-    .then(res=>res.json())
-    .then(data=>{
-        usuariosGlobal = data;
-        paginaActual = 1;
-        mostrarPagina();
-    });
-});
-
-cargarUsuarios();
-</script>
 </body>
 </html>
