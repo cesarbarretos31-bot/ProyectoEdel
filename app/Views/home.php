@@ -160,7 +160,7 @@ $uri = service('uri')->getPath();
     
     <div class="text-center mb-5">
         <h1 style="font-weight: 800; letter-spacing: 10px; color: #fff; text-shadow: 0 0 20px var(--primary-glow);">MORENSISTEM</h1>
-        <p style="font-family: 'Share Tech Mono'; color: var(--secondary-glow);">// CORE_INTERFACE_ACTIVE //</p>
+        
     </div>
 
     <nav class="emo-breadcrumb d-flex justify-content-center">
@@ -186,8 +186,8 @@ $uri = service('uri')->getPath();
             <a href="<?= site_url('carrusel/nuevo') ?>" class="command-node">
                 <span class="status-tag" style="border-color: #00ffcc; color: #00ffcc; background: rgba(0,255,204,0.1)">Upload</span>
                 <div class="node-icon"><i class="bi bi-plus-circle-dotted"></i></div>
-                <div class="node-title">NUEVO_ITEM</div>
-                <div class="node-desc">Inyectar nuevos assets multimedia al carrusel del sistema central.</div>
+                <div class="node-title">NUEVA_IMAGEN</div>
+                <div class="node-desc">Subir nueva imagen a el Carrusel.</div>
             </a>
         </div>
 
@@ -195,8 +195,8 @@ $uri = service('uri')->getPath();
             <a href="<?= site_url('usuarios-fetch') ?>" class="command-node">
                 <span class="status-tag" style="border-color: var(--secondary-glow); color: var(--secondary-glow); background: rgba(255,0,85,0.1)">Data</span>
                 <div class="node-icon"><i class="bi bi-database-fill-gear"></i></div>
-                <div class="node-title">DATOS_FETCH</div>
-                <div class="node-desc">Sincronización masiva y extracción de perfiles de usuario vía protocolo Fetch.</div>
+                <div class="node-title">CRUD</div>
+                <div class="node-desc">Crud.</div>
             </a>
         </div>
 
@@ -206,16 +206,13 @@ $uri = service('uri')->getPath();
                 <span class="status-tag">Secure</span>
                 <div class="node-icon"><i class="bi bi-person-plus-fill"></i></div>
                 <div class="node-title">REGISTRO</div>
-                <div class="node-desc">Ejecutar protocolo de alta de nuevos sujetos en la base de datos maestra.</div>
+                <div class="node-desc">Registarte</div>
             </div>
         </div>
 
     </div>
 
-    <div class="mt-5 pt-5 text-center" style="font-family: 'Share Tech Mono'; font-size: 0.7rem; color: #444; letter-spacing: 2px;">
-        <div class="mb-2">ROOT@MORENSISTEM:~$ <span class="text-white">INIT_SEQUENCE_COMPLETE</span></div>
-        <div>[ STATUS: <span style="color: #00ffcc;">OPTIMAL</span> ] [ ENCRYPTION: <span style="color: #00ffcc;">AES-256</span> ]</div>
-    </div>
+   
 
 </div>
 
