@@ -18,7 +18,7 @@ body{
 
     background:#111;
 
-    color:#fff;
+    color:#white;
 
     font-family:Arial;
 
