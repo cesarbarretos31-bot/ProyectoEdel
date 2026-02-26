@@ -18,7 +18,7 @@ body{
 
     background:#111;
 
-    color:#white;
+    color:#fff;
 
     font-family:Arial;
 
@@ -82,7 +82,7 @@ th,td{
 
     padding:10px;
 
-    border-bottom:1px solid #ebe23c;
+    border-bottom:1px solid #333;
 
 }
 
@@ -174,7 +174,7 @@ th,td{
 
     inset:0;
 
-    background:rgba(186, 255, 113, 0.7);
+    background:rgba(0,0,0,0.7);
 
     justify-content:center;
 
@@ -599,8 +599,7 @@ function editar(id){
 
 
 
-/* ================= ELIMINAR ================= */
-/* ================= ELIMINAR ================= */
+/* ================= ELIMINAR ================= *//* ================= ELIMINAR ================= */
 function eliminar(id){
     if(!confirm("¿Eliminar usuario?")) return;
 
@@ -623,6 +622,7 @@ function eliminar(id){
         alert("No se pudo eliminar el usuario.");
     });
 }
+
 
 
 /* ================= BUSCAR ================= */
