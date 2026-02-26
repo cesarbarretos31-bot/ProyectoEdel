@@ -100,6 +100,18 @@ public function actualizar($id)
 
     return $this->response->setJSON(['ok' => true]);
 }
+public function eliminar($id)
+{
+    $model = new UsuarioModel();
+    
+    // Verificamos si el usuario existe antes de borrar
+    if ($model->find($id)) {
+        $model->delete($id);
+        return $this->response->setJSON(['ok' => true, 'msg' => 'Eliminado con éxito']);
+    }
+
+    return $this->response->setJSON(['ok' => false, 'msg' => 'ID no encontrado'], 404);
+}
 public function buscar()
 {
     $model = new UsuarioModel();

@@ -600,25 +600,29 @@ function editar(id){
 
 
 /* ================= ELIMINAR ================= */
-
+/* ================= ELIMINAR ================= */
 function eliminar(id){
-
     if(!confirm("¿Eliminar usuario?")) return;
 
-
-
-    fetch(`${BASE}/api/usuarios/${id}`,{
-
-        method:"DELETE"
-
+    fetch(`${BASE}api/usuarios/${id}`, { // Verifica si BASE necesita la "/"
+        method: "DELETE",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest" // Ayuda a CI4 a identificar la petición AJAX
+        }
     })
-
-    .then(res=>res.json())
-
-    .then(()=>cargarUsuarios());
-
+    .then(res => {
+        if (!res.ok) throw new Error('Error al eliminar');
+        return res.json();
+    })
+    .then(data => {
+        console.log("Eliminado:", data);
+        cargarUsuarios(); // Recarga la tabla
+    })
+    .catch(err => {
+        console.error(err);
+        alert("No se pudo eliminar el usuario.");
+    });
 }
-
 
 
 /* ================= BUSCAR ================= */
