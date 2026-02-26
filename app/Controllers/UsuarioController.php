@@ -88,27 +88,17 @@ class UsuarioController extends BaseController
         return $this->response->setJSON(['ok' => true]);
     }
 
-    public function actualizar($id)
+public function actualizar($id)
 {
     $model = new UsuarioModel();
 
-    // Usamos getVar para que capture los datos independientemente del método
-    $datos = [
+    // getVar funciona para GET, POST y PUT
+    $model->update($id, [
         'nombre' => $this->request->getVar('nombre'),
         'correo' => $this->request->getVar('correo'),
-    ];
+    ]);
 
-    // Solo actualiza la contraseña si se envió una nueva
-    $password = $this->request->getVar('password');
-    if (!empty($password)) {
-        $datos['password'] = password_hash($password, PASSWORD_DEFAULT);
-    }
-
-    if ($model->update($id, $datos)) {
-        return $this->response->setJSON(['ok' => true]);
-    }
-
-    return $this->response->setJSON(['ok' => false, 'msg' => 'Error al actualizar'], 400);
+    return $this->response->setJSON(['ok' => true]);
 }
 public function buscar()
 {

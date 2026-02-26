@@ -42,7 +42,7 @@ $routes->get('api/usuarios', 'UsuarioController::listar');
 $routes->get('api/usuarios/buscar', 'UsuarioController::buscar');
 $routes->get('api/usuarios/(:num)', 'UsuarioController::obtener/$1');
 $routes->post('api/usuarios', 'UsuarioController::guardar');
-$routes->post('api/usuarios/(:num)', 'UsuarioController::actualizar/$1');
+$routes->put('api/usuarios/(:num)', 'UsuarioController::actualizar/$1');
 $routes->delete('api/usuarios/(:num)', 'UsuarioController::eliminar/$1');
 
 
