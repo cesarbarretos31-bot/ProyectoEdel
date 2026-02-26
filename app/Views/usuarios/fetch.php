@@ -543,51 +543,32 @@ function cerrarModal(){
 
 
 /* ================= GUARDAR / ACTUALIZAR ================= */
-
-form.addEventListener("submit",function(e){
-
+/* ================= GUARDAR / ACTUALIZAR ================= */
+form.addEventListener("submit", function(e) {
     e.preventDefault();
 
-
-
     const id = document.getElementById("id").value;
-
     const formData = new FormData(form);
 
-
-
     let url = `${BASE}/api/usuarios`;
-
-
-
-    if(id){
-
+    
+    // Si hay ID, estamos editando
+    if (id) {
         url = `${BASE}/api/usuarios/${id}`;
-
-        formData.append('_method','PUT');
-
+        // Importante: CodeIgniter necesita leer el _method dentro del POST
+        formData.append('_method', 'PUT'); 
     }
 
-
-
-    fetch(url,{
-
-        method:"POST",
-
-        body:formData
-
+    fetch(url, {
+        method: "POST", // Siempre POST para enviar FormData correctamente
+        body: formData
     })
-
-    .then(res=>res.json())
-
-    .then(()=>{
-
+    .then(res => res.json())
+    .then(data => {
         cerrarModal();
-
         cargarUsuarios();
-
-    });
-
+    })
+    .catch(err => console.error("Error:", err));
 });
 
 
